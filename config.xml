@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:gap="http://phonegap.com/ns/1.0"
+        xmlns:rim="http://www.blackberry.com/ns/widgets"
+        id="com.norataiym.autowholesale"
+        version="0.0.1"
+        android-versionCode="1"
+        versionCode="1" >
+
+	<name>Auto Wholesale</name>
+	<description>
+		Quickly find and manage your vehicle inventory from anywhere.
+	</description>
+	<author email="norataiym@gmail.com" href="https://twitter.com/ntaiymutsa">
+		Nora Taiym
+	</author>
+	<content src="index.html"/>
+
+	<!-- Allow CORS requests -->
+	<access origin="*"/>
+	<allow-navigation href="*" />
+
+	<!-- Declare PhoneGap Version -->
+	<preference name="phonegap-version" value="cli-5.2.0" />
+
+	<!-- Disable web security in Blackberry 10 allowing CORS -->
+	<preference name="WebSecurity" value="disable"/>
+
+	<!-- Stop the app in the background -->
+	<preference name="KeepRunning" value="false"/>
+
+	<!-- Declare no permissions needed (default is everything) -->
+	<preference name="permissions" value="none" />
+
+	<!-- Declare network access is required -->
+	<feature name="http://api.phonegap.com/1.0/network"/>
+
+	<!-- Prevent bounce scroll effect -->
+	<preference name="DisallowOverscroll" value="true"/>
+	<preference name="webviewbounce" value="false"/>
+	<preference name="UIWebViewBounce" value="false"/>
+
+	<!-- Set splash screen settings -->
+	<preference name="AutoHideSplashScreen" value="false" />
+	<preference name="SplashScreenDelay" value="10000"/>
+	<preference name="SplashScreen" value="splash"/>
+	<preference name="ShowSplashScreenSpinner" value="false" />
+	<preference name="FadeSplashScreen" value="false" />
+
+	<!-- Allow the keyboard to be opened by the app -->
+	<preference name="KeyboardDisplayRequiresUserAction" value="false" />
+
+	<!-- Declare required plugins -->
+	<plugin name="cordova-plugin-statusbar" source="npm" />
+	<plugin name="cordova-plugin-splashscreen" source="npm" />
+	<plugin name="cordova-plugin-whitelist" source="npm" />
+	<plugin name="cordova-plugin-device" source="npm" />
+	<plugin name="cordova-plugin-inappbrowser" source="npm" />
+	<plugin name="ionic-plugin-keyboard" source="npm" />
+
+	<feature name="StatusBar">
+		<param name="ios-package" value="CDVStatusBar" onload="true"/>
+	</feature>
+
+	<!-- PhoneGap Build Specific Configuration -->
+
+	<!-- Add required short version string to iOS configuration -->
+	<gap:config-file platform="ios" parent="CFBundleShortVersionString">
+		<string>1</string>
+	</gap:config-file>
+
+	<!-- Android specific Configuration -->
+	<gap:config-file platform="android" parent="/manifest" mode="merge">
+
+		<!-- Declare SDK -->
+		<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="22" />
+
+		<!-- Declare supported screens -->
+		<supports-screens
+			android:xlargeScreens="true"
+			android:largeScreens="true"
+			android:smallScreens="true" />
+
+		<!-- Declare theme which fixes select menu background color -->
+		<application android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+			<activity android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
+		</application>
+
+	</gap:config-file>
+</widget>

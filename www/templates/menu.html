@@ -5,13 +5,10 @@
             <ion-nav-buttons side="left">
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
             </ion-nav-buttons>
-            <ion-nav-buttons side="right">
-                <button class="button button-icon button-clear ion-plus-round" ui-sref="home2.stockInVehicle"></button>
-            </ion-nav-buttons>
         </ion-nav-bar>
-        <ion-nav-view name="side-menu21"></ion-nav-view>
+        <ion-nav-view name="menu"></ion-nav-view>
     </ion-side-menu-content>
-    <ion-side-menu side="left" id="side-menu21">
+    <ion-side-menu side="left" id="menu">
         <ion-header-bar class="bar-stable">
             <div class="title">Home</div>
         </ion-header-bar>
@@ -20,9 +17,9 @@
                 <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
             </div>
             <ion-list>
-                <ion-item ui-sref="home2.home" menu-close="">Vin Scanner</ion-item>
-                <ion-item ui-sref="home2.cart" menu-close="">Titles</ion-item>
-                <ion-item ui-sref="home2.cloud" menu-close="">Help</ion-item>
+                <ion-item ui-sref="app.vin" menu-close="">Vin Scanner</ion-item>
+                <ion-item ui-sref="app.titles" menu-close="">Titles</ion-item>
+                <ion-item ui-sref="app.help" menu-close="">Help</ion-item>
             </ion-list>
         </ion-content>
     </ion-side-menu>

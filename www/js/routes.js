@@ -7,47 +7,47 @@
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
-  
 
-      .state('home2.home', {
-    url: '/page1',
+
+
+      .state('app.home', {
+    url: '/home',
     views: {
-      'side-menu21': {
+      'menu': {
         templateUrl: 'templates/home.html',
         controller: 'homeCtrl'
       }
     }
   })
 
-  .state('home2.stockInVehicle', {
+  .state('app.stockInVehicle', {
     url: '/stockInVehicle',
     views: {
-      'side-menu21': {
+      'menu': {
         templateUrl: 'templates/stockInVehicle.html',
         controller: 'stockInVehicleCtrl'
       }
     }
   })
 
-  .state('home2.cloud', {
-    url: '/page3',
+  .state('app.vin', {
+    url: '/vin',
     views: {
-      'side-menu21': {
-        templateUrl: 'templates/cloud.html',
-        controller: 'cloudCtrl'
+      'menu': {
+        templateUrl: 'templates/vin.html',
+        controller: 'vinCtrl'
       }
     }
   })
 
-  .state('home2', {
-    url: '/side-menu21',
-    templateUrl: 'templates/home2.html',
+  .state('app', {
+    url: '/app',
+    templateUrl: 'templates/menu.html',
     abstract:true
   })
 
-$urlRouterProvider.otherwise('/side-menu21/page1')
+$urlRouterProvider.otherwise('/app/home')
 
-  
+
 
 });
