@@ -1,0 +1,17 @@
+{
+  "name": "autowholesale",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "auto",
+    "buy",
+    "title",
+    "vehicle"
+  ],
+  "author": "Nora Taiym",
+  "license": "ISC"
+}
