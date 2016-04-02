@@ -3,16 +3,16 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:gap="http://phonegap.com/ns/1.0"
         xmlns:rim="http://www.blackberry.com/ns/widgets"
-        id="com.norataiym.autowholesale"
+        id="com.allwaycars.app"
         version="0.0.1"
         android-versionCode="1"
         versionCode="1" >
 
-	<name>Auto Wholesale</name>
+	<name>AllWay Cars</name>
 	<description>
 		Quickly find and manage your vehicle inventory from anywhere.
 	</description>
-	<author email="norataiym@gmail.com" href="https://twitter.com/ntaiymutsa">
+	<author email="norataiym@gmail.com" href="https://twitter.com/norataiymUTSA">
 		Nora Taiym
 	</author>
 	<content src="index.html"/>

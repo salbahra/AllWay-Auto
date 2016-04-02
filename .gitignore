@@ -1,4 +1,9 @@
 .io-config.json
+node_modules/
+platforms/
+plugins/
+project.xcworkspace/
+xcuserdata/
 
 # Windows image file caches
 Thumbs.db

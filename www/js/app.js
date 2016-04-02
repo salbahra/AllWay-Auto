@@ -18,5 +18,11 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    // Hide the splash screen after 500ms of the app being ready
+    $timeout( function() {
+      try {
+        navigator.splashscreen.hide();
+      } catch ( err ) {}
+    }, 500 );
   });
 })

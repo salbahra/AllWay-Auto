@@ -9,7 +9,7 @@ Quickly find and manage your vehicle inventory from anywhere.
 [official]: https://github.com/norataiym/AutoWholesale
 [help]: https://github.com/norataiym/AutoWholesale/issues
 [changelog]: https://github.com/norataiym/AutoWholesale/releases
-[norataiym]: https://twitter.com/ntaiymutsa
+[norataiym]: https://twitter.com/norataiymUTSA
 
 
 ===================================
