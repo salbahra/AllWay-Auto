@@ -1,150 +1,109 @@
 <ion-view title="Stock In Vehicle" id="stockInVehicle">
-	<ion-content overflow-scroll="true" padding="true" class="has-header">
-	<div class="list">
-	</div>
-	 <label class="item item-input item-select">
-	<div class="input-label">
-	Make
-	</div>
-	<select>
-	  <option>Acura</option>
-	  <option selected>Audi</option>
-	  <option>Bentley</option>
-	  <option>BMW</option>
-	  <option>Buick</option>
-	  <option>Cadillac</option>
-	  <option>Chevrolet</option>
-	  <option>Chrysler</option>
-	  <option>Dodge</option>
-	  <option>Eagle</option>
-	  <option>Ferrari</option>
-	  <option>Fiat</option>
-	  <option>GMC</option>
-	  <option>Honda</option>
-	  <option>Hummer</option>
-	  <option>Hyundai</option>
-	  <option>Infiniti</option>
-	  <option>Isuzu</option>
-	  <option>Jaguar</option>
-	  <option>Jeep</option>
-	  <option>Kia</option>
-	  <option>Lamborghini</option>
-	  <option>Land Rover</option>
-	  <option>Lexus</option>
-	  <option>Lincoln</option>
-	  <option>Maserati</option>
-	  <option>Mazda</option>
-	  <option>Mercedes-Benz</option>
-	  <option>Mercury</option>
-	  <option>Mini</option>
-	  <option>Mitsubishi</option>
-	  <option>Nissan</option>
-	  <option>Pontiac</option>
-	  <option>Porsche</option>
-	  <option>RAM</option>
-	  <option>Saturn</option>
-	  <option>Scion</option>
-	  <option>Subaru</option>
-	  <option>Suzuki</option>
-	  <option>Tesla</option>
-	  <option>Toyota</option>
-	  <option>Volkswagen</option>
-	  <option>Volvo</option>
-	</select>
-	</label>
-		  <div class="item item-input-inset">
-	<label class="item-input-wrapper">
-	  <input type="text" placeholder="Model">
-	</label>
-  </div>
-  <div class="item item-input-inset">
-	<label class="item-input-wrapper">
-	  <input type="text" placeholder="VIN">
-	</label>
-  </div>
-	<div class="item item-input-inset">
-	<label class="item-input-wrapper">
-	  <input type="text" placeholder="Odometer">
-  </div>
-	<div class="item item-input-inset">
-	<label class="item-input-wrapper">
-	  <input type="text" placeholder="Year">
-	</label>
-  </div>
-  <label class="item item-input item-select">
-	<div class="input-label">
-	  Color
-	</div>
-	<select>
-	  <option>Blue</option>
-	  <option selected>Green</option>
-	  <option>Red</option>
-	  <option>White</option>
-	  <option>Black</option>
-	  <option>Orange</option>
-	</select>
-  </label>
-   <label class="item item-input item-select">
-	<div class="input-label">
-	Purchased From
-	</div>
-	<select>
-	  <option>Acura</option>
-	  <option selected>Audi</option>
-	  <option>Bentley</option>
-	  <option>BMW</option>
-	  <option>Buick</option>
-	  <option>Cadillac</option>
-	  <option>Chevrolet</option>
-	  <option>Chrysler</option>
-	  <option>Dodge</option>
-	  <option>Eagle</option>
-	  <option>Ferrari</option>
-	  <option>Fiat</option>
-	  <option>GMC</option>
-	  <option>Honda</option>
-	  <option>Hummer</option>
-	  <option>Hyundai</option>
-	  <option>Infiniti</option>
-	  <option>Isuzu</option>
-	  <option>Jaguar</option>
-	  <option>Jeep</option>
-	  <option>Kia</option>
-	  <option>Lamborghini</option>
-	  <option>Land Rover</option>
-	  <option>Lexus</option>
-	  <option>Lincoln</option>
-	  <option>Maserati</option>
-	  <option>Mazda</option>
-	  <option>Mercedes-Benz</option>
-	  <option>Mercury</option>
-	  <option>Mini</option>
-	  <option>Mitsubishi</option>
-	  <option>Nissan</option>
-	  <option>Pontiac</option>
-	  <option>Porsche</option>
-	  <option>RAM</option>
-	  <option>Saturn</option>
-	  <option>Scion</option>
-	  <option>Subaru</option>
-	  <option>Suzuki</option>
-	  <option>Tesla</option>
-	  <option>Toyota</option>
-	  <option>Volkswagen</option>
-	  <option>Volvo</option>
-	</select>
-	</label>
-	<label class="item item-input item-select">
-	<div class="input-label">
-	Date
-	<ion-view cache-view="false" title="{{ currentDate | date:'MMM  dd, yyyy' }}">
-	</ion-view></div>
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Make
+            </div>
+            <select ng-model="data.make" ng-options="make.name for make in data.makes track by make.id">
+            </select>
+        </label>
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Model
+            </div>
+            <select ng-model="data.model" ng-options="model.name for model in data.make.models track by data.make.id">
+            </select>
+        </label>
+        <div class="item item-input-inset">
+            <label class="item-input-wrapper">
+                <input type="text" placeholder="VIN">
+            </label>
+        </div>
+        <div class="item item-input-inset">
+            <label class="item-input-wrapper">
+                <input type="text" placeholder="Odometer">
+        </div>
+        <div class="item item-input-inset">
+            <label class="item-input-wrapper">
+                <input type="text" placeholder="Year">
+            </label>
+        </div>
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Color
+            </div>
+            <select>
+                <option>Blue</option>
+                <option selected>Green</option>
+                <option>Red</option>
+                <option>White</option>
+                <option>Black</option>
+                <option>Orange</option>
+            </select>
+        </label>
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Purchased From
+            </div>
+            <select>
+                <option>Acura</option>
+                <option selected>Audi</option>
+                <option>Bentley</option>
+                <option>BMW</option>
+                <option>Buick</option>
+                <option>Cadillac</option>
+                <option>Chevrolet</option>
+                <option>Chrysler</option>
+                <option>Dodge</option>
+                <option>Eagle</option>
+                <option>Ferrari</option>
+                <option>Fiat</option>
+                <option>GMC</option>
+                <option>Honda</option>
+                <option>Hummer</option>
+                <option>Hyundai</option>
+                <option>Infiniti</option>
+                <option>Isuzu</option>
+                <option>Jaguar</option>
+                <option>Jeep</option>
+                <option>Kia</option>
+                <option>Lamborghini</option>
+                <option>Land Rover</option>
+                <option>Lexus</option>
+                <option>Lincoln</option>
+                <option>Maserati</option>
+                <option>Mazda</option>
+                <option>Mercedes-Benz</option>
+                <option>Mercury</option>
+                <option>Mini</option>
+                <option>Mitsubishi</option>
+                <option>Nissan</option>
+                <option>Pontiac</option>
+                <option>Porsche</option>
+                <option>RAM</option>
+                <option>Saturn</option>
+                <option>Scion</option>
+                <option>Subaru</option>
+                <option>Suzuki</option>
+                <option>Tesla</option>
+                <option>Toyota</option>
+                <option>Volkswagen</option>
+                <option>Volvo</option>
+            </select>
+        </label>
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Date
+                <ion-view cache-view="false" title="{{ currentDate | date:'MMM  dd, yyyy' }}">
+                </ion-view>
+            </div>
 </ion-view>
-  <label class="item-input-wrapper">
-  </label>
-  <button class="button button-black">
-	SUBMIT
-  </button>
+<label class="item-input-wrapper">
+</label>
+<button class="button button-black">
+    SUBMIT
+</button>
 </div>
-</div></ion-content>
+</div>
+</ion-content>
 </ion-view>
