@@ -1,10 +1,10 @@
-angular.module('app.controllers', [])
+angular.module( "app.controller", [] )
 
-.controller('homeCtrl', function($scope) {
+.controller( "homeCtrl", function( $scope ) {
 
-})
+} )
 
-.controller('stockInVehicleCtrl', function($scope, CarAPI) {
+.controller( "stockInVehicleCtrl", function( $scope, CarAPI ) {
 	$scope.data = {};
 
 	CarAPI.getAllModels( function( data ) {
@@ -13,15 +13,14 @@ angular.module('app.controllers', [])
 
 	$scope.scanVIN = function() {
 		cordova.plugins.barcodeScanner.scan(
-			function(result) {
+			function( result ) {
 				$scope.data.vin = result.text;
-			},
-			function() {}
+			}
 		);
 	};
-})
+} )
 
-.controller('vinCtrl', function($scope) {
+.controller( "vinCtrl", function( $scope ) {
 
-})
+} );
 

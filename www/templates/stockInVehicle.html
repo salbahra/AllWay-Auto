@@ -1,35 +1,37 @@
 <ion-view title="Stock In Vehicle" id="stockInVehicle">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
+        <div class="item item-input-inset">
+            <label class="item-input-wrapper">
+                <input type="text" ng-model="data.vin" placeholder="VIN">
+            </label>
+            <button class="button button-small" ng-click="scanVIN()" ng-if="cordova">
+                <i class="icon ion-camera"></i>
+            </button>
+        </div>
         <label class="item item-input item-select">
             <div class="input-label">
                 Make
             </div>
-            <select ng-model="data.make" ng-options="make.name for make in data.makes track by make.id">
+            <select ng-model="data.make" ng-disabled="!data.makes" ng-options="make.name for make in data.makes track by make.id">
             </select>
         </label>
         <label class="item item-input item-select">
             <div class="input-label">
                 Model
             </div>
-            <select ng-model="data.model" ng-options="model.name for model in data.make.models track by data.make.id">
+            <select ng-model="data.model" ng-disabled="!data.make" ng-options="model.name for model in data.make.models track by make.id">
+            </select>
+        </label>
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Year
+            </div>
+            <select ng-model="data.year" ng-disabled="!data.model" ng-options="year.year for year in data.model.years track by years.id">
             </select>
         </label>
         <div class="item item-input-inset">
             <label class="item-input-wrapper">
-                <input type="text" ng-model="data.vin" placeholder="VIN">
-            </label>
-		    <button class="button button-small" ng-click="scanVIN()">
-		      <i class="icon ion-camera"></i>
-		    </button>
-        </div>
-        <div class="item item-input-inset">
-            <label class="item-input-wrapper">
-                <input type="text" placeholder="Odometer">
-        </div>
-        <div class="item item-input-inset">
-            <label class="item-input-wrapper">
-                <input type="text" placeholder="Year">
-            </label>
+                <input type="number" min="0" placeholder="Odometer">
         </div>
         <label class="item item-input item-select">
             <div class="input-label">
@@ -100,13 +102,6 @@
                 <ion-view cache-view="false" title="{{ currentDate | date:'MMM  dd, yyyy' }}">
                 </ion-view>
             </div>
-</ion-view>
-<label class="item-input-wrapper">
-</label>
-<button class="button button-black">
-    SUBMIT
-</button>
-</div>
-</div>
-</ion-content>
+        </label>
+    </ion-content>
 </ion-view>
