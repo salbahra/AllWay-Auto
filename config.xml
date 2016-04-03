@@ -58,6 +58,7 @@
 	<plugin name="cordova-plugin-device" source="npm" />
 	<plugin name="cordova-plugin-inappbrowser" source="npm" />
 	<plugin name="ionic-plugin-keyboard" source="npm" />
+	<plugin name="phonegap-plugin-barcodescanner" source="npm" />
 
 	<feature name="StatusBar">
 		<param name="ios-package" value="CDVStatusBar" onload="true"/>
