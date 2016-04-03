@@ -15,6 +15,7 @@ angular.module( "app.controllers", [] )
 	$scope.scanVIN = function() {
 		cordova.plugins.barcodeScanner.scan(
 			function( result ) {
+				console.log( result );
 				CarAPI.getVINInfo( result.text, function( data ) {
 					console.log( data );
 				} );
