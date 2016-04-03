@@ -1,4 +1,4 @@
-angular.module( "app.controller", [] )
+angular.module( "app.controllers", [] )
 
 .controller( "homeCtrl", function( $scope ) {
 
@@ -6,17 +6,33 @@ angular.module( "app.controller", [] )
 
 .controller( "stockInVehicleCtrl", function( $scope, CarAPI ) {
 	$scope.data = {};
+	$scope.info = {};
 
 	CarAPI.getAllModels( function( data ) {
-		$scope.data.makes = data.makes;
+		$scope.info.makes = data.makes;
 	} );
 
 	$scope.scanVIN = function() {
 		cordova.plugins.barcodeScanner.scan(
 			function( result ) {
-				$scope.data.vin = result.text;
+				CarAPI.getVINInfo( result.text, function( data ) {
+					console.log( data );
+				} );
 			}
 		);
+	};
+
+	$scope.getColors = function() {
+		CarAPI.getColorForModel( $scope.data.make.name, $scope.data.model.name, $scope.data.year.year, function( data ) {
+			$scope.info.colors = data;
+		} );
+	};
+
+	$scope.saveCar = function() {
+		console.log( $scope.addCar );
+		if ( $scope.addCar.$valid ) {
+			console.log( $scope.data );
+		}
 	};
 } )
 
