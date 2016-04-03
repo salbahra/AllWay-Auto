@@ -28,7 +28,7 @@ angular.module( "app.controllers", [] )
 			function( result ) {
 				if ( result.text && CarAPI.validateVIN( result.text ) ) {
 					$scope.data.vin = result.text;
-					VINLookup( result.text );
+					$scope.VINLookup( result.text );
 				} else {
 					$ionicPopup.alert( {
 						template: "<p class='center'>Invalid VIN detected. Please try again.</p>"
