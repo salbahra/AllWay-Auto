@@ -4,27 +4,31 @@
     </ion-nav-buttons>
     <div class="bar bar-subheader">
         <div class="tabs tabs-dark">
-            <a class="tab-item">
+            <a class="tab-item" ui-sref-active="active">
 				Inventory
 			</a>
-            <a class="tab-item">
+            <a class="tab-item" ui-sref-active="active">
 				Sold
 			</a>
         </div>
     </div>
-    <ion-content overflow-scroll="true" padding="true" class="has-subheader has-header">
+    <ion-content overflow-scroll="true" padding="true" class="has-subheader has-header" ng-class="{'vertical-center': cars.length === 0 }">
         <form class="list list-inset">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
                 <input type="search" placeholder="">
             </label>
         </form>
-        <ion-list>
+        <ion-list ng-if="cars.length">
             <ion-item class="item-thumbnail-left">
                 <img>
                 <h2>Title</h2>
                 <p>Item</p>
             </ion-item>
         </ion-list>
+        <div ng-if="cars.length === 0" class="center empty-state">
+            <h1>No Cars in Your Inventory</h1>
+            <p>Add some cars by hitting the plus sign on the top right corner.</p>
+        </div>
     </ion-content>
 </ion-view>

@@ -45,11 +45,10 @@
 	            <select ng-model="data.color" ng-disabled="!data.year || !info.colors.length" ng-options="color.name for color in info.colors track by color.id">
 	            </select>
 	        </label>
-	        <div class="item item-input-inset">
-	            <label class="item-input-wrapper">
-	                <input type="number" ng-min="0" ng-max="999999" placeholder="Odometer">
-	            </label>
-	        </div>
+			<label class="item item-input">
+				<span class="input-label">Odometer</span>
+				<input type="number" ng-min="0" ng-max="999999">
+			</label>
 	        <label class="item item-input item-select">
 	            <div class="input-label">
 	                Purchased From

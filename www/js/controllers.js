@@ -1,7 +1,7 @@
 angular.module( "app.controllers", [] )
 
 .controller( "homeCtrl", function( $scope ) {
-
+	$scope.cars = [];
 } )
 
 .controller( "stockInVehicleCtrl", function( $scope, $filter, $ionicPopup, CarAPI ) {
@@ -76,5 +76,8 @@ angular.module( "app.controllers", [] )
 
 .controller( "vinCtrl", function( $scope ) {
 
-} );
+} )
 
+.controller( "helpCtrl", function( $scope ) {
+
+} );

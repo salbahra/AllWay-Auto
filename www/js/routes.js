@@ -37,6 +37,16 @@
       }
     } )
 
+    .state( "app.help", {
+      url: "/help",
+      views: {
+        menu: {
+          templateUrl: "templates/help.html",
+          controller: "helpCtrl"
+        }
+      }
+    } )
+
     .state( "app", {
       url: "/app",
       templateUrl: "templates/menu.html",
