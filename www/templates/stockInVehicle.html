@@ -19,13 +19,6 @@
         <div class="list">
 	        <label class="item item-input item-select">
 	            <div class="input-label">
-	                Year
-	            </div>
-	            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model || !info.years.length" ng-options="year.year for year in info.years track by year.id">
-	            </select>
-	        </label>
-	        <label class="item item-input item-select">
-	            <div class="input-label">
 	                Make
 	            </div>
 	            <select ng-model="data.make" ng-disabled="!info.makes || !info.makes.length" ng-options="make.name for make in info.makes track by make.id">
@@ -36,6 +29,13 @@
 	                Model
 	            </div>
 	            <select ng-model="data.model" ng-disabled="!data.make || !data.make.models.length" ng-options="model.name for model in data.make.models track by model.id" ng-change="updateDetails()">
+	            </select>
+	        </label>
+	        <label class="item item-input item-select">
+	            <div class="input-label">
+	                Year
+	            </div>
+	            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model || !info.years.length" ng-options="year.year for year in info.years track by year.id">
 	            </select>
 	        </label>
 	        <label class="item item-input item-select">

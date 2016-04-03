@@ -17,7 +17,7 @@ var	gulp	     = require( "gulp" ),               // Gulp
 	runSequence  = require( "run-sequence" );       // Runs tasks in sequence
 
 gulp.task( "default", function( callback ) {
-	runSequence( "lint", [ "sass", "fs" ], "uglify", callback );
+	runSequence( "lint", "sass", callback );
 } );
 
 // Lint task
