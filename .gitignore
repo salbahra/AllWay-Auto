@@ -1,4 +1,5 @@
 .io-config.json
+ionic.project
 node_modules/
 platforms/
 plugins/
