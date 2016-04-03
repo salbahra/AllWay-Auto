@@ -1,6 +1,6 @@
 <h3>Auto Wholesale</h3>
 [Official Site][official] | [Support][help] | [Changelog][changelog]
-&copy; 2016 [Nora Taiym][norataiym] ([@norataiymUTSA](https://twitter.com/norataiymUTSA))
+&copy; 2016 [Nora Taiym][norataiym] ([@norataiymUTSA](https://twitter.com/ntaiymutsa))
 <br>
 Quickly find and manage your vehicle inventory from anywhere.
 
@@ -9,7 +9,7 @@ Quickly find and manage your vehicle inventory from anywhere.
 [official]: https://github.com/norataiym/AutoWholesale
 [help]: https://github.com/norataiym/AutoWholesale/issues
 [changelog]: https://github.com/norataiym/AutoWholesale/releases
-[norataiym]: https://twitter.com/norataiymUTSA
+[norataiym]: https://twitter.com/ntaiymutsa
 
 
 ===================================
