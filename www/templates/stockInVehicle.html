@@ -3,96 +3,103 @@
         <button class="button button-clear" ng-click="saveCar()">Submit</button>
     </ion-nav-buttons>
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <div class="item item-input-inset">
-            <label class="item-input-wrapper">
-                <input type="text" ng-model="data.vin" placeholder="VIN" ng-change="VINLookup()">
-            </label>
-            <button class="button button-small" ng-click="scanVIN()">
-                <i class="icon ion-camera"></i> Scan
-            </button>
-        </div>
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Year
-            </div>
-            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model" ng-options="year.year for year in info.years track by year.id">
-            </select>
-        </label>
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Make
-            </div>
-            <select ng-model="data.make" ng-disabled="!info.makes" ng-options="make.name for make in info.makes track by make.id">
-            </select>
-        </label>
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Model
-            </div>
-            <select ng-model="data.model" ng-disabled="!data.make" ng-options="model.name for model in data.make.models track by model.id" ng-change="data.years = data.model.years">
-            </select>
-        </label>
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Color
-            </div>
-            <select ng-model="data.color" ng-disabled="!data.year" ng-options="color.name for color in info.colors track by color.id">
-            </select>
-        </label>
-        <div class="item item-input-inset">
-            <label class="item-input-wrapper">
-                <input type="number" ng-min="0" ng-max="999999" placeholder="Odometer">
-            </label>
-        </div>
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Purchased From
-            </div>
-            <select>
-                <option>Acura</option>
-                <option selected>Audi</option>
-                <option>Bentley</option>
-                <option>BMW</option>
-                <option>Buick</option>
-                <option>Cadillac</option>
-                <option>Chevrolet</option>
-                <option>Chrysler</option>
-                <option>Dodge</option>
-                <option>Eagle</option>
-                <option>Ferrari</option>
-                <option>Fiat</option>
-                <option>GMC</option>
-                <option>Honda</option>
-                <option>Hummer</option>
-                <option>Hyundai</option>
-                <option>Infiniti</option>
-                <option>Isuzu</option>
-                <option>Jaguar</option>
-                <option>Jeep</option>
-                <option>Kia</option>
-                <option>Lamborghini</option>
-                <option>Land Rover</option>
-                <option>Lexus</option>
-                <option>Lincoln</option>
-                <option>Maserati</option>
-                <option>Mazda</option>
-                <option>Mercedes-Benz</option>
-                <option>Mercury</option>
-                <option>Mini</option>
-                <option>Mitsubishi</option>
-                <option>Nissan</option>
-                <option>Pontiac</option>
-                <option>Porsche</option>
-                <option>RAM</option>
-                <option>Saturn</option>
-                <option>Scion</option>
-                <option>Subaru</option>
-                <option>Suzuki</option>
-                <option>Tesla</option>
-                <option>Toyota</option>
-                <option>Volkswagen</option>
-                <option>Volvo</option>
-            </select>
-        </label>
+    	<div class="list">
+	        <div class="item item-inset item-text-wrap">
+	            <p class="center">In order to expedite the process, you may use your devices camera to scan the VIN which will auto-populate the fields below. The fields will auto-populate on manual VIN entry as well.</p>
+	        </div>
+	        <div class="item item-input-inset">
+	            <label class="item-input-wrapper">
+	                <input type="text" ng-model="data.vin" placeholder="VIN" ng-change="VINLookup()">
+	            </label>
+	            <button class="button button-small" ng-click="scanVIN()">
+	                <i class="icon ion-camera"></i> Scan
+	            </button>
+	        </div>
+	    </div>
+        <div class="list">
+	        <label class="item item-input item-select">
+	            <div class="input-label">
+	                Year
+	            </div>
+	            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model || !info.years.length" ng-options="year.year for year in info.years track by year.id">
+	            </select>
+	        </label>
+	        <label class="item item-input item-select">
+	            <div class="input-label">
+	                Make
+	            </div>
+	            <select ng-model="data.make" ng-disabled="!info.makes || !info.makes.length" ng-options="make.name for make in info.makes track by make.id">
+	            </select>
+	        </label>
+	        <label class="item item-input item-select">
+	            <div class="input-label">
+	                Model
+	            </div>
+	            <select ng-model="data.model" ng-disabled="!data.make || !data.make.models.length" ng-options="model.name for model in data.make.models track by model.id" ng-change="updateDetails()">
+	            </select>
+	        </label>
+	        <label class="item item-input item-select">
+	            <div class="input-label">
+	                Color
+	            </div>
+	            <select ng-model="data.color" ng-disabled="!data.year || !info.colors.length" ng-options="color.name for color in info.colors track by color.id">
+	            </select>
+	        </label>
+	        <div class="item item-input-inset">
+	            <label class="item-input-wrapper">
+	                <input type="number" ng-min="0" ng-max="999999" placeholder="Odometer">
+	            </label>
+	        </div>
+	        <label class="item item-input item-select">
+	            <div class="input-label">
+	                Purchased From
+	            </div>
+	            <select>
+	                <option>Acura</option>
+	                <option selected>Audi</option>
+	                <option>Bentley</option>
+	                <option>BMW</option>
+	                <option>Buick</option>
+	                <option>Cadillac</option>
+	                <option>Chevrolet</option>
+	                <option>Chrysler</option>
+	                <option>Dodge</option>
+	                <option>Eagle</option>
+	                <option>Ferrari</option>
+	                <option>Fiat</option>
+	                <option>GMC</option>
+	                <option>Honda</option>
+	                <option>Hummer</option>
+	                <option>Hyundai</option>
+	                <option>Infiniti</option>
+	                <option>Isuzu</option>
+	                <option>Jaguar</option>
+	                <option>Jeep</option>
+	                <option>Kia</option>
+	                <option>Lamborghini</option>
+	                <option>Land Rover</option>
+	                <option>Lexus</option>
+	                <option>Lincoln</option>
+	                <option>Maserati</option>
+	                <option>Mazda</option>
+	                <option>Mercedes-Benz</option>
+	                <option>Mercury</option>
+	                <option>Mini</option>
+	                <option>Mitsubishi</option>
+	                <option>Nissan</option>
+	                <option>Pontiac</option>
+	                <option>Porsche</option>
+	                <option>RAM</option>
+	                <option>Saturn</option>
+	                <option>Scion</option>
+	                <option>Subaru</option>
+	                <option>Suzuki</option>
+	                <option>Tesla</option>
+	                <option>Toyota</option>
+	                <option>Volkswagen</option>
+	                <option>Volvo</option>
+	            </select>
+	        </label>
+	    </div>
     </ion-content>
 </ion-view>

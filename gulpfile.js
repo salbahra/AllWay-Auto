@@ -10,10 +10,14 @@ var	gulp	     = require( "gulp" ),               // Gulp
 	autoprefixer = require( "gulp-autoprefixer" ),  // CSS Vendor Prefixing
 	jshint       = require( "gulp-jshint" ),        // JSHint syntax check
 	jscs         = require( "gulp-jscs" ),          // Javascript style checker
+	notify       = require( "gulp-notify" ),        // Advanced Notifications
+	rename       = require( "gulp-rename" ),        // Rename Files & Directories
+	minifyCss    = require( "gulp-minify-css" ),    // CSS Minification
+	sass         = require( "gulp-sass" ),          // SASS Compilation
 	runSequence  = require( "run-sequence" );       // Runs tasks in sequence
 
 gulp.task( "default", function( callback ) {
-	runSequence( "lint", callback );
+	runSequence( "lint", [ "sass", "fs" ], "uglify", callback );
 } );
 
 // Lint task
@@ -31,4 +35,32 @@ gulp.task( "lint-style", function() {
 		.pipe( jscs() )
 		.pipe( jscs.reporter() )
 		.pipe( jscs.reporter( "fail" ) );
+} );
+
+// Compiles SASS & attaches vendor prefixes
+gulp.task( "sass", function() {
+	return gulp.src( "scss/ionic.app.scss" )
+
+	    // Use gulp-notify as SASS reporter
+		.pipe( sass.sync( {
+			style: "compressed",
+			errLogToConsole: false,
+			onError: function( err ) {
+			    return notify().write( err );
+			}
+		} ) )
+		.pipe( autoprefixer( {
+			browsers: [ "last 2 versions", "ie 9", "ie 10" ]
+		} ) )
+		.pipe( minifyCss( {
+			keepBreaks:true
+		} ) )
+		.pipe( rename( { extname: ".min.css" } ) )
+        .pipe( gulp.dest( "./www/css/", { mode: "0755" } ) )
+        .pipe( notify( { message: "CSS processing complete..." } ) );
+} );
+
+// SASS Listener
+gulp.task( "watch", function() {
+	gulp.watch( [ "/scss/ionic.app.scss" ], [ "sass" ] );
 } );

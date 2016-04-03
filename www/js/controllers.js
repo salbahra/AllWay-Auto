@@ -48,9 +48,17 @@ angular.module( "app.controllers", [] )
 				$scope.data.model = $scope.data.make.models[ $scope.data.make.models.indexOf( filterFilter( $scope.data.make.models, { id: data.model.id } )[ 0 ] ) ];
 				$scope.info.years = data.years;
 				$scope.data.year = $scope.info.years[ $scope.info.years.indexOf( filterFilter( $scope.info.years, { id: data.years[ 0 ].id } )[ 0 ] ) ];
-				$scope.info.colors = data.colors[ 0 ].options;
+				if ( data.colors && data.colors.length ) {
+					$scope.info.colors = data.colors[ 0 ].options;
+				} else {
+					$scope.getColors();
+				}
 			} );
 		}
+	};
+
+	$scope.updateDetails = function() {
+		$scope.info.years = $scope.data.model.years;
 	};
 
 	$scope.getColors = function() {

@@ -6,7 +6,7 @@ angular.module( "app.services", [] )
 
 	return {
         validateVIN: function( vin ) {
-            return vin.match( /^[A-HJ-NPR-Za-hj-npr-z\d]{8}[\dX][A-HJ-NPR-Za-hj-npr-z\d]{2}\d{6}$/ ) ? true : false;
+            return vin.match( /[A-HJ-NPR-Z0-9]{17}/ ) ? true : false;
         },
 		getAllModels: function( callback ) {
 			$http = $http || $injector.get( "$http" );
