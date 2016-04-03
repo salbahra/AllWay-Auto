@@ -13,6 +13,13 @@
         </div>
         <label class="item item-input item-select">
             <div class="input-label">
+                Year
+            </div>
+            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model" ng-options="year.year for year in data.model.years track by year.id">
+            </select>
+        </label>
+        <label class="item item-input item-select">
+            <div class="input-label">
                 Make
             </div>
             <select ng-model="data.make" ng-disabled="!info.makes" ng-options="make.name for make in info.makes track by make.id">
@@ -22,21 +29,14 @@
             <div class="input-label">
                 Model
             </div>
-            <select ng-model="data.model" ng-disabled="!data.make" ng-options="model.name for model in data.make.models track by make.id">
-            </select>
-        </label>
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Year
-            </div>
-            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model" ng-options="year.year for year in data.model.years track by years.id">
+            <select ng-model="data.model" ng-disabled="!data.make" ng-options="model.name for model in data.make.models track by model.id">
             </select>
         </label>
         <label class="item item-input item-select">
             <div class="input-label">
                 Color
             </div>
-            <select ng-model="data.color" ng-disabled="!data.year" ng-options="color.name for color in info.colors.styles[0].colors[1].options track by color.id">
+            <select ng-model="data.color" ng-disabled="!data.year" ng-options="color.name for color in info.colors track by color.id">
             </select>
         </label>
         <div class="item item-input-inset">
