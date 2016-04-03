@@ -1,6 +1,6 @@
 <h3>Auto Wholesale</h3>
-&nbsp;[Official Site][official] | [Support][help] | [Changelog][changelog]
-&nbsp;&copy; 2016 [Nora Taiym][norataiym] ([@norataiymUTSA](https://twitter.com/norataiymUTSA))
+[Official Site][official] | [Support][help] | [Changelog][changelog]
+&copy; 2016 [Nora Taiym][norataiym] ([@norataiymUTSA](https://twitter.com/norataiymUTSA))
 <br>
 Quickly find and manage your vehicle inventory from anywhere.
 
