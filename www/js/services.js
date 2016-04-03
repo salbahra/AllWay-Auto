@@ -20,12 +20,27 @@ angular.module( "app.services", [] )
                 }
             );
 		},
-        getColorForModel: function( id, callback ) {
+        getColorForModel: function( make, model, year, callback ) {
             $http = $http || $injector.get( "$http" );
 
             $http( {
                 method: "GET",
-                url: "https://api.edmunds.com/api/vehicle/v2/styles/200477947/colors?fmt=json&api_key=" + token
+                url: "https://api.edmunds.com/api/vehicle/v2/" + make + "/" + model + "/" + year + "/styles?fmt=json&api_key=" + token + "&view=full"
+            } ).then(
+                function( result ) {
+                    callback( result.data );
+                },
+                function() {
+                    callback( false );
+                }
+            );
+        },
+        getVINInfo: function( vin, callback ) {
+            $http = $http || $injector.get( "$http" );
+
+            $http( {
+                method: "GET",
+                url: "https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=" + token
             } ).then(
                 function( result ) {
                     callback( result.data );

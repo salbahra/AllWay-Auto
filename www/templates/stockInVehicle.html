@@ -1,4 +1,7 @@
 <ion-view title="Stock In Vehicle" id="stockInVehicle">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" ng-click="saveCar()">Submit</button>
+    </ion-nav-buttons>
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <div class="item item-input-inset">
             <label class="item-input-wrapper">
@@ -12,7 +15,7 @@
             <div class="input-label">
                 Make
             </div>
-            <select ng-model="data.make" ng-disabled="!data.makes" ng-options="make.name for make in data.makes track by make.id">
+            <select ng-model="data.make" ng-disabled="!info.makes" ng-options="make.name for make in info.makes track by make.id">
             </select>
         </label>
         <label class="item item-input item-select">
@@ -26,26 +29,21 @@
             <div class="input-label">
                 Year
             </div>
-            <select ng-model="data.year" ng-disabled="!data.model" ng-options="year.year for year in data.model.years track by years.id">
+            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model" ng-options="year.year for year in data.model.years track by years.id">
+            </select>
+        </label>
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Color
+            </div>
+            <select ng-model="data.color" ng-disabled="!data.year" ng-options="color.name for color in info.colors.styles[0].colors[1].options track by color.id">
             </select>
         </label>
         <div class="item item-input-inset">
             <label class="item-input-wrapper">
                 <input type="number" min="0" placeholder="Odometer">
+            </label>
         </div>
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Color
-            </div>
-            <select>
-                <option>Blue</option>
-                <option selected>Green</option>
-                <option>Red</option>
-                <option>White</option>
-                <option>Black</option>
-                <option>Orange</option>
-            </select>
-        </label>
         <label class="item item-input item-select">
             <div class="input-label">
                 Purchased From
@@ -95,13 +93,6 @@
                 <option>Volkswagen</option>
                 <option>Volvo</option>
             </select>
-        </label>
-        <label class="item item-input item-select">
-            <div class="input-label">
-                Date
-                <ion-view cache-view="false" title="{{ currentDate | date:'MMM  dd, yyyy' }}">
-                </ion-view>
-            </div>
         </label>
     </ion-content>
 </ion-view>
