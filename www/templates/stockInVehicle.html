@@ -5,7 +5,7 @@
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <div class="item item-input-inset">
             <label class="item-input-wrapper">
-                <input type="text" ng-model="data.vin" placeholder="VIN">
+                <input type="text" ng-model="data.vin" placeholder="VIN" ng-change="VINLookup()">
             </label>
             <button class="button button-small" ng-click="scanVIN()">
                 <i class="icon ion-camera"></i> Scan
@@ -15,7 +15,7 @@
             <div class="input-label">
                 Year
             </div>
-            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model" ng-options="year.year for year in data.model.years track by year.id">
+            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model" ng-options="year.year for year in info.years track by year.id">
             </select>
         </label>
         <label class="item item-input item-select">
@@ -29,7 +29,7 @@
             <div class="input-label">
                 Model
             </div>
-            <select ng-model="data.model" ng-disabled="!data.make" ng-options="model.name for model in data.make.models track by model.id">
+            <select ng-model="data.model" ng-disabled="!data.make" ng-options="model.name for model in data.make.models track by model.id" ng-change="data.years = data.model.years">
             </select>
         </label>
         <label class="item item-input item-select">
@@ -41,7 +41,7 @@
         </label>
         <div class="item item-input-inset">
             <label class="item-input-wrapper">
-                <input type="number" min="0" placeholder="Odometer">
+                <input type="number" ng-min="0" ng-max="999999" placeholder="Odometer">
             </label>
         </div>
         <label class="item item-input item-select">
