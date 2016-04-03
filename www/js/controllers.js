@@ -27,7 +27,7 @@ angular.module( "app.controllers", [] )
 		cordova.plugins.barcodeScanner.scan(
 			function( result ) {
 				if ( result.text && CarAPI.validateVIN( result.text ) ) {
-					$scope.data.vin = vin;
+					$scope.data.vin = result.text;
 					VINLookup( result.text );
 				} else {
 					$ionicPopup.alert( {
