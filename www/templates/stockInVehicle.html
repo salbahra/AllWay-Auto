@@ -45,6 +45,8 @@
 	            <select ng-model="data.color" ng-disabled="!data.year || !info.colors.length" ng-options="color.name for color in info.colors track by color.id">
 	            </select>
 	        </label>
+	    </div>
+        <div class="list">
 	        <label class="item item-input item-select">
 	            <div class="input-label">
 	                Purchaser
@@ -60,11 +62,40 @@
 					items-method="callbackMethod(query)"
 					item-value-key="gdn"
 					item-view-value-key="name"
+					placeholder="Enter the purchaser name..."
+					select-items-label="Select the purchaser..."
+					selected-items-label="Selected purchaser:"
 				/>
 	        </label>
 			<label class="item item-input">
 				<span class="input-label">Odometer</span>
-				<input type="number" ng-min="0" ng-max="999999">
+				<input type="number" ng-min="0" ng-max="999999" ng-model="data.odometer">
+			</label>
+			<label class="item item-input">
+				<span class="input-label">Purchase Date</span>
+				<input type="date" placeholder="yyyy-MM-dd" min="2013-01-01" max="2100-12-31" ng-model="data.purchaseDate">
+			</label>
+			<label class="item item-input">
+				<span class="input-label">Purchase Price</span>
+				<input type="number" ng-model="data.purchasePrice">
+			</label>
+			<label class="item item-input">
+				<span class="input-label">Sell Date</span>
+				<input type="date" placeholder="yyyy-MM-dd" min="2013-01-01" max="2100-12-31" ng-model="data.sellDate">
+			</label>
+			<label class="item item-input">
+				<span class="input-label">Sell Price</span>
+				<input type="number" ng-model="data.sellPrice">
+			</label>
+	        <div class="item item-button-right">
+                Upload Car Image
+	            <button class="button button-small">
+	                <i class="icon ion-camera"></i> Take Picture
+	            </button>
+	        </div>
+			<label class="item item-input">
+				<span class="input-label">Notes</span>
+				<textarea rows="5" ng-model="data.notes"></textarea>
 			</label>
 	    </div>
     </ion-content>
