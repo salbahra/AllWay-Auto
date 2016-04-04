@@ -3,12 +3,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:gap="http://phonegap.com/ns/1.0"
         xmlns:rim="http://www.blackberry.com/ns/widgets"
-        id="com.allwaycars.app"
+        id="com.allwayauto.app"
         version="0.0.1"
         android-versionCode="1"
         versionCode="1" >
 
-	<name>AllWay Cars</name>
+	<name>AllWay Auto</name>
 	<description>
 		Quickly find and manage your vehicle inventory from anywhere.
 	</description>

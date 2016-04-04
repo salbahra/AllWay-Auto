@@ -1,6 +1,6 @@
 /* global require, console, process */
 
-// AllWay Cars
+// AllWay Auto
 
 // 1. LIBRARIES
 // - - - - - - - - - - - - - - -

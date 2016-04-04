@@ -23,6 +23,10 @@ angular.module( "app.controllers", [] )
 		$scope.info.makes = data.makes;
 	} );
 
+	CarAPI.getCompanies( function( data ) {
+		$scope.info.companies = data;
+	} );
+
 	$scope.scanVIN = function() {
 		cordova.plugins.barcodeScanner.scan(
 			function( result ) {
@@ -67,6 +71,13 @@ angular.module( "app.controllers", [] )
 				$scope.info.colors = data.styles[ 0 ].colors[ 1 ].options;
 			} );
 		}
+	};
+
+	$scope.callbackMethod = function( query, isInitializing ) {
+		if ( query.length < 3 ) {
+			return [];
+		}
+		return filterFilter( $scope.info.companies, { name: query } );
 	};
 
 	$scope.saveCar = function() {

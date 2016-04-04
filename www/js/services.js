@@ -52,6 +52,21 @@ angular.module( "app.services", [] )
                     callback( false );
                 }
             );
+        },
+        getCompanies: function( callback ) {
+            $http = $http || $injector.get( "$http" );
+
+            $http( {
+                method: "GET",
+                url: "http://104.131.184.55:3000/companies"
+            } ).then(
+                function( result ) {
+                    callback( result.data );
+                },
+                function() {
+                    callback( false );
+                }
+            );
         }
 	};
 } ] )
