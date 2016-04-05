@@ -1,6 +1,6 @@
 <ion-view title="Stock In Vehicle" id="stockInVehicle">
     <ion-content has-bouncing="false" padding="true" class="has-header">
-    	<form name="form" ng-submit="saveCar()" novalidate="novalidate">
+    	<form name="form" on-valid-submit="saveCar()" novalidate="novalidate">
 	    	<div class="list">
 		        <div class="item item-inset item-text-wrap">
 		            <p class="center">In order to expedite the process, you may use your devices camera to scan the VIN which will auto-populate the fields below. The fields will auto-populate on manual VIN entry as well.</p>
@@ -66,8 +66,7 @@
 						placeholder="Enter the purchaser name..."
 						select-items-label="Select the purchaser..."
 						selected-items-label="Selected purchaser:"
-						required="required"
-					/>
+						required="required">
 		        </label>
 				<label class="item item-input">
 					<span class="input-label">Odometer</span>
