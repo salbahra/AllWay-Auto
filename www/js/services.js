@@ -1,7 +1,8 @@
 angular.module( "app.services", [] )
 
 .factory( "CarAPI", [ "$injector", "$rootScope", function( $injector, $rootScope ) {
-	var token = "63db4mypzb27b768uj4xp5qt",
+	var apiBase = "http://104.131.184.55:3000",
+        token = "63db4mypzb27b768uj4xp5qt",
 		$http;
 
 	return {
@@ -59,6 +60,37 @@ angular.module( "app.services", [] )
             $http( {
                 method: "GET",
                 url: "http://104.131.184.55:3000/companies"
+            } ).then(
+                function( result ) {
+                    callback( result.data );
+                },
+                function() {
+                    callback( false );
+                }
+            );
+        },
+        addCar: function( car, callback ) {
+            $http = $http || $injector.get( "$http" );
+
+            $http( {
+                method: "POST",
+                url: apiBase + "/register/car",
+                data: car
+            } ).then(
+                function( result ) {
+                    callback( result.data );
+                },
+                function() {
+                    callback( false );
+                }
+            );
+        },
+        getCars: function( callback ) {
+            $http = $http || $injector.get( "$http" );
+
+            $http( {
+                method: "GET",
+                url: apiBase + "/cars"
             } ).then(
                 function( result ) {
                     callback( result.data );

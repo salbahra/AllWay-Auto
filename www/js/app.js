@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module( "app", [ "ionic", "ion-autocomplete", "app.controllers", "app.routes", "app.services", "app.directives" ] )
 
-.run( function( $ionicPlatform, $timeout ) {
+.run( function( $ionicPlatform, $ionicLoading, $rootScope, $timeout ) {
   $ionicPlatform.ready( function() {
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -28,5 +28,20 @@ angular.module( "app", [ "ionic", "ion-autocomplete", "app.controllers", "app.ro
         navigator.splashscreen.hide();
       } catch ( err ) {}
     }, 500 );
+  } );
+
+  // Automatically show a loading message on any AJAX request
+  $rootScope.$on( "loading:show", function( e, data ) {
+
+    // TODO: Handle more than one simultaneous AJAX
+    $rootScope.canceller = data.canceller.resolve;
+    $ionicLoading.show( {
+      template: "<ion-spinner></ion-spinner><br>One moment please<br><button class='button icon-left ion-ios-close-outline button-clear' ng-click='$root.canceller()'>Cancel</button>"
+    } );
+  } );
+
+  // Automatically hide the loading message after an AJAX request
+  $rootScope.$on( "loading:hide", function() {
+    $ionicLoading.hide();
   } );
 } );

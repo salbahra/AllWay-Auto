@@ -1,11 +1,24 @@
 angular.module( "app.controllers", [] )
 
-.controller( "homeCtrl", function( $scope ) {
+.controller( "homeCtrl", function( $scope, CarAPI ) {
 	$scope.cars = [];
+
+	// If the user or organization changed, update data on next view
+	$scope.$on( "$ionicView.beforeEnter", function() {
+		CarAPI.getCars( function( data ) {
+			if ( data ) {
+				$scope.cars = data;
+			} else {
+				$scope.cars = [];
+			}
+		} );
+	} );
 } )
 
-.controller( "stockInVehicleCtrl", function( $scope, $filter, $ionicPopup, CarAPI ) {
+.controller( "stockInVehicleCtrl", function( $scope, $window, $filter, $ionicHistory, $ionicPopup, CarAPI ) {
 	var filterFilter = $filter( "filter" );
+
+	$scope.hasCamera = $window.cordova ? true : false;
 
 	$scope.data = {
 		make: [],
@@ -81,7 +94,31 @@ angular.module( "app.controllers", [] )
 	};
 
 	$scope.saveCar = function() {
-		console.log( $scope.data );
+		CarAPI.addCar( {
+			vin: $scope.data.vin,
+			make: $scope.data.make.name,
+			model: $scope.data.model.name,
+			year: $scope.data.year.year,
+			color: $scope.data.color.name,
+			purchaser: $scope.data.purchaser,
+			odometer: $scope.data.odometer,
+			purchaseDate: $scope.data.purchaseDate,
+			purchasePrice: $scope.data.purchasePrice,
+			sellDate: $scope.data.sellDate,
+			sellPrice: $scope.data.sellPrice,
+			notes: $scope.data.notes
+		}, function( result ) {
+			var msg = "Car added succesfully!";
+
+			if ( !result ) {
+				msg = "Unable to add vehicle. Make sure the VIN is unique and try again.";
+			}
+
+			$ionicPopup.alert( {
+				template: "<p class='center'>" + msg + "</p>"
+			} );
+			$ionicHistory.goBack();
+		} );
 	};
 } )
 

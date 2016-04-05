@@ -1,102 +1,108 @@
 <ion-view title="Stock In Vehicle" id="stockInVehicle">
-    <ion-nav-buttons side="right">
-        <button class="button button-clear" ng-click="saveCar()">Submit</button>
-    </ion-nav-buttons>
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-    	<div class="list">
-	        <div class="item item-inset item-text-wrap">
-	            <p class="center">In order to expedite the process, you may use your devices camera to scan the VIN which will auto-populate the fields below. The fields will auto-populate on manual VIN entry as well.</p>
-	        </div>
-	        <div class="item item-input-inset">
-	            <label class="item-input-wrapper">
-	                <input type="text" ng-model="data.vin" placeholder="VIN" ng-change="VINLookup()">
-	            </label>
-	            <button class="button button-small" ng-click="scanVIN()">
-	                <i class="icon ion-camera"></i> Scan
-	            </button>
-	        </div>
-	    </div>
-        <div class="list">
-	        <label class="item item-input item-select">
-	            <div class="input-label">
-	                Make
-	            </div>
-	            <select ng-model="data.make" ng-disabled="!info.makes || !info.makes.length" ng-options="make.name for make in info.makes track by make.id">
-	            </select>
-	        </label>
-	        <label class="item item-input item-select">
-	            <div class="input-label">
-	                Model
-	            </div>
-	            <select ng-model="data.model" ng-disabled="!data.make || !data.make.models.length" ng-options="model.name for model in data.make.models track by model.id" ng-change="updateDetails()">
-	            </select>
-	        </label>
-	        <label class="item item-input item-select">
-	            <div class="input-label">
-	                Year
-	            </div>
-	            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model || !info.years.length" ng-options="year.year for year in info.years track by year.id">
-	            </select>
-	        </label>
-	        <label class="item item-input item-select">
-	            <div class="input-label">
-	                Color
-	            </div>
-	            <select ng-model="data.color" ng-disabled="!data.year || !info.colors.length" ng-options="color.name for color in info.colors track by color.id">
-	            </select>
-	        </label>
-	    </div>
-        <div class="list">
-	        <label class="item item-input item-select">
-	            <div class="input-label">
-	                Purchaser
-	            </div>
-				<input
-					ion-autocomplete
-					type="text"
-					readonly="readonly"
-					class="ion-autocomplete"
-					ng-model="data.purchaser"
-					autocomplete="off"
-					max-selected-items="1"
-					items-method="callbackMethod(query)"
-					item-value-key="gdn"
-					item-view-value-key="name"
-					placeholder="Enter the purchaser name..."
-					select-items-label="Select the purchaser..."
-					selected-items-label="Selected purchaser:"
-				/>
-	        </label>
-			<label class="item item-input">
-				<span class="input-label">Odometer</span>
-				<input type="number" ng-min="0" ng-max="999999" ng-model="data.odometer">
-			</label>
-			<label class="item item-input">
-				<span class="input-label">Purchase Date</span>
-				<input type="date" placeholder="yyyy-MM-dd" min="2013-01-01" max="2100-12-31" ng-model="data.purchaseDate">
-			</label>
-			<label class="item item-input">
-				<span class="input-label">Purchase Price</span>
-				<input type="number" ng-model="data.purchasePrice">
-			</label>
-			<label class="item item-input">
-				<span class="input-label">Sell Date</span>
-				<input type="date" placeholder="yyyy-MM-dd" min="2013-01-01" max="2100-12-31" ng-model="data.sellDate">
-			</label>
-			<label class="item item-input">
-				<span class="input-label">Sell Price</span>
-				<input type="number" ng-model="data.sellPrice">
-			</label>
-	        <div class="item item-button-right">
-                Upload Car Image
-	            <button class="button button-small">
-	                <i class="icon ion-camera"></i> Take Picture
-	            </button>
-	        </div>
-			<label class="item item-input">
-				<span class="input-label">Notes</span>
-				<textarea rows="5" ng-model="data.notes"></textarea>
-			</label>
-	    </div>
+    	<form name="form" ng-submit="saveCar()" novalidate="novalidate">
+	    	<div class="list">
+		        <div class="item item-inset item-text-wrap">
+		            <p class="center">In order to expedite the process, you may use your devices camera to scan the VIN which will auto-populate the fields below. The fields will auto-populate on manual VIN entry as well.</p>
+		        </div>
+		        <div class="item item-input-inset">
+		            <label class="item-input-wrapper">
+		                <input type="text" ng-model="data.vin" placeholder="VIN" ng-change="VINLookup()" required="required" ng-pattern="/[A-HJ-NPR-Z0-9]{17}/">
+		            </label>
+		            <button class="button button-small" ng-click="scanVIN()" ng-show="hasCamera">
+		                <i class="icon ion-camera"></i> Scan
+		            </button>
+		        </div>
+		    </div>
+	        <div class="list">
+		        <div class="item item-inset item-text-wrap">
+		            <p class="center">The fields below will auto populate as you select a make, model, and year.</p>
+		        </div>
+		        <label class="item item-input item-select">
+		            <div class="input-label">
+		                Make
+		            </div>
+		            <select ng-model="data.make" ng-disabled="!info.makes || !info.makes.length" ng-options="make.name for make in info.makes track by make.id"  required="required">
+		            </select>
+		        </label>
+		        <label class="item item-input item-select">
+		            <div class="input-label">
+		                Model
+		            </div>
+		            <select ng-model="data.model" ng-disabled="!data.make || !data.make.models.length" ng-options="model.name for model in data.make.models track by model.id" ng-change="updateDetails()" required="required">
+		            </select>
+		        </label>
+		        <label class="item item-input item-select">
+		            <div class="input-label">
+		                Year
+		            </div>
+		            <select ng-change="getColors()" ng-model="data.year" ng-disabled="!data.model || !info.years.length" ng-options="year.year for year in info.years track by year.id" required="required">
+		            </select>
+		        </label>
+		        <label class="item item-input item-select">
+		            <div class="input-label">
+		                Color
+		            </div>
+		            <select ng-model="data.color" ng-disabled="!data.year || !info.colors.length" ng-options="color.name for color in info.colors track by color.id" required="required">
+		            </select>
+		        </label>
+		    </div>
+	        <div class="list">
+		        <label class="item item-input item-select">
+		            <div class="input-label">
+		                Purchaser
+		            </div>
+					<input
+						ion-autocomplete
+						type="text"
+						readonly="readonly"
+						class="ion-autocomplete"
+						ng-model="data.purchaser"
+						autocomplete="off"
+						max-selected-items="1"
+						items-method="callbackMethod(query)"
+						item-value-key="gdn"
+						item-view-value-key="name"
+						placeholder="Enter the purchaser name..."
+						select-items-label="Select the purchaser..."
+						selected-items-label="Selected purchaser:"
+						required="required"
+					/>
+		        </label>
+				<label class="item item-input">
+					<span class="input-label">Odometer</span>
+					<input type="number" ng-min="0" ng-max="999999" ng-model="data.odometer" required="required">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Purchase Date</span>
+					<input type="date" placeholder="yyyy-MM-dd" ng-min="1990-01-01" ng-max="2100-12-31" ng-model="data.purchaseDate" required="required">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Purchase Price</span>
+					<input type="number" ng-model="data.purchasePrice" required="required" ng-pattern="/^\d+(\.|\,)\d{2}$/">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Sell Date</span>
+					<input type="date" placeholder="yyyy-MM-dd" ng-min="1990-01-01" ng-max="2100-12-31" ng-model="data.sellDate" required="required">
+				</label>
+				<label class="item item-input">
+					<span class="input-label">Sell Price</span>
+					<input type="number" ng-model="data.sellPrice" required="required" ng-pattern="/^\d+(\.|\,)\d{2}$/">
+				</label>
+				<!-- TODO: Add picture upload
+		        <div class="item item-button-right">
+	                Upload Car Image
+		            <button class="button button-small">
+		                <i class="icon ion-camera"></i> Take Picture
+		            </button>
+		        </div>
+		        -->
+				<label class="item item-input">
+					<span class="input-label">Notes</span>
+					<textarea rows="5" ng-model="data.notes"></textarea>
+				</label>
+		    </div>
+			<button ng-disabled="form.$invalid" class="button center button-block button-positive text" type="submit">Submit</button>
+		</form>
     </ion-content>
 </ion-view>

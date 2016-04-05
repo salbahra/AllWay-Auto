@@ -20,10 +20,11 @@
             </label>
         </form>
         <ion-list ng-if="cars.length">
-            <ion-item class="item-thumbnail-left">
+            <ion-item class="item-thumbnail-left" ng-repeat="car in cars track by car.id">
                 <img>
-                <h2>Title</h2>
-                <p>Item</p>
+                <h2>{{car.make}} - {{car.model}} - {{car.year}} - {{car.color}}</h2>
+                <p>VIN: {{car.vin}}</p>
+                <p>Miles: {{car.odometer}}</p>
             </ion-item>
         </ion-list>
         <div ng-if="cars.length === 0" class="center empty-state">
