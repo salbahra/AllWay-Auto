@@ -70,7 +70,7 @@
 		        </label>
 				<label class="item item-input">
 					<span class="input-label">Odometer</span>
-					<input type="number" ng-min="0" ng-max="999999" ng-model="data.odometer" required="required">
+					<input type="number" ng-min="0" ng-max="999999" ng-model="data.odometer" pattern="\d*" required="required">
 				</label>
 				<label class="item item-input">
 					<span class="input-label">Purchase Date</span>
