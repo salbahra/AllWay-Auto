@@ -1,6 +1,6 @@
   angular.module( "app.routes", [] )
 
-.config( function( $stateProvider, $urlRouterProvider, $httpProvider ) {
+.config( function( $stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider ) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -127,5 +127,8 @@
       }
     };
   } );
+
+  // Inform Ionic we want to cache forward views
+  $ionicConfigProvider.views.forwardCache( true );
 
 } );
