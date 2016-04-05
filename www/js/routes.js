@@ -1,6 +1,12 @@
   angular.module( "app.routes", [] )
 
-.config( function( $stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider ) {
+.config( function( $stateProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, $httpProvider ) {
+
+  // Modify Ionic's allowed href protocols to allow Firefox, Blackberry, iOS and Chrome support
+  $compileProvider.aHrefSanitizationWhitelist( /^\s*(https?|ftp|mailto|chrome-extension|app|local|file):/ );
+
+  // Modify Ionic's allowed image source protocols
+  $compileProvider.imgSrcSanitizationWhitelist( /^\s*(https?|ftp|file|content|blob|ms-appx|x-wmapp0|chrome-extension|app|local):|data:image\// );
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
