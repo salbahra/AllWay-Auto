@@ -47,6 +47,9 @@ angular.module( "app.services", [] )
                 url: "https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=" + token
             } ).then(
                 function( result ) {
+					if ( result.data.status === "BAD_REQUEST" ) {
+						callback( false );
+					}
                     callback( result.data );
                 },
                 function() {
