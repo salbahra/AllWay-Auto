@@ -80,14 +80,6 @@
 					<span class="input-label">Purchase Price</span>
 					<input type="number" ng-model="data.purchasePrice" required="required" ng-pattern="/^\d+(\.|\,)\d{2}$/">
 				</label>
-				<label class="item item-input">
-					<span class="input-label">Sell Date</span>
-					<input type="date" placeholder="yyyy-MM-dd" ng-min="1990-01-01" ng-max="2100-12-31" ng-model="data.sellDate" required="required">
-				</label>
-				<label class="item item-input">
-					<span class="input-label">Sell Price</span>
-					<input type="number" ng-model="data.sellPrice" required="required" ng-pattern="/^\d+(\.|\,)\d{2}$/">
-				</label>
 				<!-- TODO: Add picture upload
 		        <div class="item item-button-right">
 	                Upload Car Image
@@ -98,7 +90,7 @@
 		        -->
 				<label class="item item-input">
 					<span class="input-label">Notes</span>
-					<textarea rows="5" ng-model="data.notes"></textarea>
+					<textarea rows="5" placeholder="Optional..." ng-model="data.notes"></textarea>
 				</label>
 		    </div>
 			<button ng-disabled="form.$invalid" class="button center button-block button-positive text" type="submit">Submit</button>

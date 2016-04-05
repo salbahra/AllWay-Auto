@@ -43,6 +43,7 @@ angular.module( "app.controllers", [] )
 	$scope.scanVIN = function() {
 		cordova.plugins.barcodeScanner.scan(
 			function( result ) {
+				console.log( result );
 				if ( result.text && CarAPI.validateVIN( result.text ) ) {
 					$scope.data.vin = result.text;
 					$scope.VINLookup( result.text );
@@ -60,7 +61,13 @@ angular.module( "app.controllers", [] )
 		vin = vin || $scope.data.vin;
 
 		if ( CarAPI.validateVIN( vin ) ) {
-			CarAPI.getVINInfo( vin, function( data ) {
+			CarAPI.getVINInfo( vin, function( data, error ) {
+				if ( !data && error === "" ) {
+					$ionicPopup.alert( {
+						template: "<p class='center'>" + error.message + "</p>"
+					} );
+					return;
+				};
 				$scope.data.make = $scope.info.makes[ $scope.info.makes.indexOf( filterFilter( $scope.info.makes, { id: data.make.id } )[ 0 ] ) ];
 				$scope.data.model = $scope.data.make.models[ $scope.data.make.models.indexOf( filterFilter( $scope.data.make.models, { id: data.model.id } )[ 0 ] ) ];
 				$scope.info.years = data.years;
@@ -104,8 +111,6 @@ angular.module( "app.controllers", [] )
 			odometer: $scope.data.odometer,
 			purchaseDate: $scope.data.purchaseDate,
 			purchasePrice: $scope.data.purchasePrice,
-			sellDate: $scope.data.sellDate,
-			sellPrice: $scope.data.sellPrice,
 			notes: $scope.data.notes
 		}, function( result ) {
 			var msg = "Car added succesfully!";
