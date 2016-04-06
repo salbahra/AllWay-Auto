@@ -45,7 +45,7 @@ angular.module( "app.controllers", [] )
 			function( result ) {
 				if ( result.text ) {
 					if ( result.text.charAt( 0 ).toLowerCase() === "i" ) {
-						result.text = result.text.splice( 1 );
+						result.text = result.text.substring( 1 );
 					}
 					if ( CarAPI.validateVIN( result.text ) ) {
 						$scope.data.vin = result.text;
