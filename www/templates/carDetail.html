@@ -29,16 +29,16 @@
 				<span class="bold">Odometer:</span> {{currentCar.odometer}}
 			</div>
 			<div class="item">
-				<span class="bold">Purchase Date:</span> {{currentCar.purchaseDate}}
+				<span class="bold">Purchase Date:</span> {{currentCar.purchaseDate | date:'yyyy-MM-dd'}}
 			</div>
 			<div class="item">
-				<span class="bold">Purchase Price:</span> {{currentCar.purchasePrice}}
+				<span class="bold">Purchase Price:</span> ${{currentCar.purchasePrice}}
 			</div>
 			<div class="item" ng-if="currentCar.sellDate">
-				<span class="bold">Sell Date:</span> {{currentCar.sellDate}}
+				<span class="bold">Sell Date:</span> {{currentCar.sellDate | date:'yyyy-MM-dd'}}
 			</div>
-			<div class="item">
-				<span class="bold">Sell Price:</span> {{currentCar.sellPrice}}
+			<div class="item" ng-if="currentCar.sellPrice">
+				<span class="bold">Sell Price:</span> ${{currentCar.sellPrice}}
 			</div>
 			<div class="item">
 				<span class="bold">Notes:</span> {{currentCar.notes}}
