@@ -1,17 +1,25 @@
 angular.module( "app.controllers", [] )
 
-.controller( "homeCtrl", function( $scope, CarAPI ) {
+.controller( "homeCtrl", function( $scope, $filter, CarAPI ) {
+	var filterFilter = $filter( "filter" );
+
 	$scope.cars = [];
+	$scope.data = {};
 
 	$scope.updateView = function() {
 		CarAPI.getCars( function( data ) {
 			if ( data ) {
 				$scope.cars = data;
+				$scope.applyFilters();
 			} else {
 				$scope.cars = [];
 			}
 			$scope.$broadcast( "scroll.refreshComplete" );
 		} );
+	};
+
+	$scope.applyFilters = function() {
+		$scope.filtered = filterFilter( $scope.cars, $scope.data.search );
 	};
 
 	// If the user or organization changed, update data on next view
