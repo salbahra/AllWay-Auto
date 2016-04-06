@@ -3,8 +3,7 @@ angular.module( "app.controllers", [] )
 .controller( "homeCtrl", function( $scope, CarAPI ) {
 	$scope.cars = [];
 
-	// If the user or organization changed, update data on next view
-	$scope.$on( "$ionicView.beforeEnter", function() {
+	$scope.updateView = function() {
 		CarAPI.getCars( function( data ) {
 			if ( data ) {
 				$scope.cars = data;
@@ -12,7 +11,10 @@ angular.module( "app.controllers", [] )
 				$scope.cars = [];
 			}
 		} );
-	} );
+	};
+
+	// If the user or organization changed, update data on next view
+	$scope.$on( "$ionicView.beforeEnter", $scope.updateView );
 } )
 
 .controller( "stockInVehicleCtrl", function( $scope, $window, $filter, $ionicHistory, $ionicPopup, CarAPI ) {
