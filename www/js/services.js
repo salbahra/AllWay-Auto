@@ -3,12 +3,13 @@ angular.module( "app.services", [] )
 .factory( "CarAPI", [ "$injector", "$rootScope", function( $injector, $rootScope ) {
 	var apiBase = "http://104.131.184.55:3000",
         token = "63db4mypzb27b768uj4xp5qt",
-		$http;
+		validateVIN = function( vin ) {
+            return vin.toUpperCase().match( /[A-HJ-NPR-Z0-9]{17}/ ) ? true : false;
+        },
+        $http, $ionicPopup;
 
 	return {
-        validateVIN: function( vin ) {
-            return vin.match( /[A-HJ-NPR-Z0-9]{17}/ ) ? true : false;
-        },
+        validateVIN: validateVIN,
 		getAllModels: function( callback ) {
 			$http = $http || $injector.get( "$http" );
 
@@ -36,21 +37,6 @@ angular.module( "app.services", [] )
                 },
                 function() {
                     callback( false );
-                }
-            );
-        },
-        getVINInfo: function( vin, callback ) {
-            $http = $http || $injector.get( "$http" );
-
-            $http( {
-                method: "GET",
-                url: "https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=" + token
-            } ).then(
-                function( result ) {
-                    callback( result.data );
-                },
-                function( error ) {
-                    callback( false, error );
                 }
             );
         },
@@ -99,6 +85,60 @@ angular.module( "app.services", [] )
                     callback( false );
                 }
             );
+        },
+        scanVIN: function( callback ) {
+            $ionicPopup = $ionicPopup || $injector.get( "$ionicPopup" );
+
+            cordova.plugins.barcodeScanner.scan(
+                function( result ) {
+                    if ( result.text ) {
+                        if ( result.text.charAt( 0 ).toLowerCase() === "i" ) {
+                            result.text = result.text.substring( 1 );
+                        }
+                        if ( validateVIN( result.text ) ) {
+                            callback( result.text );
+                        } else if ( !result.cancelled ) {
+                            $ionicPopup.alert( {
+                                template: "<p class='center'>Invalid VIN detected. Please try again.</p>"
+                            } );
+                        }
+                    }
+                }
+            );
+        },
+        getVINInfo: function( vin, callback ) {
+            if ( validateVIN( vin ) ) {
+
+                $http = $http || $injector.get( "$http" );
+
+                $http( {
+                    method: "GET",
+                    url: "https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=" + token
+                } ).then(
+                    function( result ) {
+
+                        var data = {
+                            make: result.data.make.id,
+                            model: result.data.model.id,
+                            years: result.data.years
+                        };
+
+                        if ( data.colors && data.colors.length ) {
+                            data.colors = result.data.colors[ 0 ].options;
+                        }
+
+                        callback( data );
+                    },
+                    function( error ) {
+                        $ionicPopup.alert( {
+                            template: "<p class='center'>" + error.message + "</p>"
+                        } );
+                        callback( false );
+                    }
+                );
+            } else {
+                callback( false );
+            }
         }
 	};
 } ] )

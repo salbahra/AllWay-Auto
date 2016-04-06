@@ -10,18 +10,18 @@
     </ion-side-menu-content>
     <ion-side-menu side="left" id="menu" expose-aside-when="large">
         <ion-header-bar class="bar-stable">
-            <div class="title pointer" ui-sref="app.home">Home</div>
+            <div class="title pointer" ui-sref="app.home" ng-click="closeMenu()">Home</div>
         </ion-header-bar>
         <ion-content padding="false" class="side-menu-left has-header">
             <div style="line-height: 250px; border: 1px solid rgb(238, 238, 238); border-radius: 3px; text-align: center; background-color: rgb(255, 255, 255);">
                 <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
             </div>
             <ion-list>
-                <ion-item class="item-icon-left pointer" ui-sref-active="active" ui-sref="app.vin">
+                <ion-item class="item-icon-left pointer" ui-sref-active="active" ui-sref="app.vin" ng-click="closeMenu()">
                     <i class="icon ion-ios-barcode-outline"></i>
                     Vin Scanner
                 </ion-item>
-                <ion-item class="item-icon-left pointer" ui-sref-active="active" ui-sref="app.help">
+                <ion-item class="item-icon-left pointer" ui-sref-active="active" ui-sref="app.help" ng-click="closeMenu()">
                     <i class="icon ion-help"></i>
                     Help
                 </ion-item>

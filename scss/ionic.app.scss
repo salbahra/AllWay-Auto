@@ -77,3 +77,33 @@ $font-family-base: "Roboto", sans-serif !default;
 	max-width: 600px;
 	margin: 0 auto;
 }
+
+ion-popover-view.fit {
+  width: auto;
+  height: auto;
+  ion-content {
+    position: relative;
+  }
+}
+
+.platform-android ion-popover-view.fit {
+  margin-top: 10px;
+}
+
+.platform-ios ion-popover-view.fit {
+  .item:first-child {
+    @include border-top-radius($popover-border-radius-ios);
+  }
+  .item:last-child {
+    @include border-bottom-radius($popover-border-radius-ios);
+  }
+}
+.popover.fix-position {
+  margin-top: -40px;
+}
+.popover.popover-bottom.fix-position {
+  margin-top: 25px;
+}
+.platform-ios .popover-arrow {
+  display: none
+}

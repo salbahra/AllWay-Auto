@@ -7,7 +7,7 @@
 		        </div>
 		        <div class="item item-input-inset">
 		            <label class="item-input-wrapper">
-		                <input type="text" ng-model="data.vin" placeholder="VIN" ng-change="VINLookup()" required="required" ng-pattern="/[A-HJ-NPR-Z0-9]{17}/">
+		                <input type="text" ng-model="data.vin" placeholder="VIN" ng-change="VINLookup()" required="required">
 		            </label>
 		            <button class="button button-small" ng-click="scanVIN()" ng-show="hasCamera">
 		                <i class="icon ion-camera"></i> Scan
@@ -63,9 +63,9 @@
 						items-method="callbackMethod(query)"
 						item-value-key="gdn"
 						item-view-value-key="name"
-						placeholder="Enter the purchaser name..."
+						placeholder="Enter purchaser name..."
 						select-items-label="Select the purchaser..."
-						selected-items-label="Selected purchaser:"
+						selected-items-label="Currently selected purchaser:"
 						required="required">
 		        </label>
 				<label class="item item-input">

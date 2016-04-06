@@ -1,13 +1,31 @@
 angular.module( "app.controllers", [] )
 
-.controller( "homeCtrl", function( $scope, $filter, CarAPI ) {
+.controller( "homeCtrl", function( $scope, $rootScope, $ionicPopover, $ionicModal, $filter, CarAPI ) {
 	var filterFilter = $filter( "filter" ),
 		orderFilter = $filter( "orderBy" );
+
+	$ionicModal.fromTemplateUrl( "templates/carDetail.html", {
+		scope: $scope
+	} ).then( function( modal ) {
+		$scope.carDetail = modal;
+	} );
+
+	$ionicPopover.fromTemplateUrl( "templates/showOptions.html", {
+		scope: $scope
+	} ).then( function( popover ) {
+		$scope.showOptions = popover;
+	} );
 
 	$scope.cars = [];
 	$scope.data = {};
 	$scope.filters = [ "Inventory", "Sold" ];
 	$scope.currentFilter = "Inventory";
+
+	$scope.more = function( event, car ) {
+		event.stopPropagation();
+		$scope.currentCar = car;
+		$scope.showOptions.show( event );
+	};
 
 	$scope.updateView = function() {
 		CarAPI.getCars( function( data ) {
@@ -19,6 +37,12 @@ angular.module( "app.controllers", [] )
 			}
 			$scope.$broadcast( "scroll.refreshComplete" );
 		} );
+	};
+
+	$scope.showCar = function( car ) {
+		$scope.currentCar = car;
+		$scope.currentCar.purchaserName = filterFilter( $rootScope.companies, { gdn: car.purchaser } )[ 0 ].name;
+		$scope.carDetail.show();
 	};
 
 	$scope.setFilter = function( filter ) {
@@ -43,6 +67,12 @@ angular.module( "app.controllers", [] )
 
 	// If the user or organization changed, update data on next view
 	$scope.$on( "$ionicView.beforeEnter", $scope.updateView );
+
+	// Cleanup the modal when we're done with it
+	$scope.$on( "$destroy", function() {
+		$scope.carDetail.remove();
+		$scope.showOptions.remove();
+	} );
 } )
 
 .controller( "stockInVehicleCtrl", function( $scope, $rootScope, $interval, $window, $filter, $ionicHistory, $ionicPopup, CarAPI ) {
@@ -79,48 +109,28 @@ angular.module( "app.controllers", [] )
 	}
 
 	$scope.scanVIN = function() {
-		cordova.plugins.barcodeScanner.scan(
-			function( result ) {
-				if ( result.text ) {
-					if ( result.text.charAt( 0 ).toLowerCase() === "i" ) {
-						result.text = result.text.substring( 1 );
-					}
-					if ( CarAPI.validateVIN( result.text ) ) {
-						$scope.data.vin = result.text;
-						$scope.VINLookup( result.text );
-					} else if ( !result.cancelled ) {
-						$ionicPopup.alert( {
-							template: "<p class='center'>Invalid VIN detected. Please try again.</p>"
-						} );
-					}
-				}
-			}
-		);
+		CarAPI.scanVIN( function( vin ) {
+			$scope.data.vin = result.text;
+			$scope.VINLookup( result.text );
+		} );
 	};
 
-	$scope.VINLookup = function( vin, callback ) {
-		callback = callback || function() {};
+	$scope.VINLookup = function( vin ) {
 		vin = vin || $scope.data.vin;
 
-		if ( CarAPI.validateVIN( vin ) ) {
-			CarAPI.getVINInfo( vin, function( data, error ) {
-				if ( !data && error === "" ) {
-					$ionicPopup.alert( {
-						template: "<p class='center'>" + error.message + "</p>"
-					} );
-					return;
-				};
-				$scope.data.make = $scope.info.makes[ $scope.info.makes.indexOf( filterFilter( $scope.info.makes, { id: data.make.id } )[ 0 ] ) ];
-				$scope.data.model = $scope.data.make.models[ $scope.data.make.models.indexOf( filterFilter( $scope.data.make.models, { id: data.model.id } )[ 0 ] ) ];
-				$scope.info.years = data.years;
-				$scope.data.year = $scope.info.years[ $scope.info.years.indexOf( filterFilter( $scope.info.years, { id: data.years[ 0 ].id } )[ 0 ] ) ];
-				if ( data.colors && data.colors.length ) {
-					$scope.info.colors = data.colors[ 0 ].options;
-				} else {
-					$scope.getColors();
-				}
-			} );
-		}
+		CarAPI.getVINInfo( vin, function( data ) {
+			if ( !data ) {
+				return;
+			}
+
+            $scope.data.make = $scope.info.makes[ $scope.info.makes.indexOf( filterFilter( $scope.info.makes, { id: data.make } )[ 0 ] ) ];
+            $scope.data.model = $scope.data.make.models[ $scope.data.make.models.indexOf( filterFilter( $scope.data.make.models, { id: data.model } )[ 0 ] ) ];
+            $scope.info.years = data.years;
+            $scope.data.year = $scope.info.years[ $scope.info.years.indexOf( filterFilter( $scope.info.years, { id: data.years[ 0 ].id } )[ 0 ] ) ];
+            if ( !data.colors ) {
+                $scope.getColors();
+            }
+		} );
 	};
 
 	$scope.updateDetails = function() {
@@ -171,8 +181,26 @@ angular.module( "app.controllers", [] )
 
 .controller( "vinCtrl", function( $scope ) {
 
+	$scope.data = {};
+
+	$scope.scanVIN = function() {
+		CarAPI.scanVIN( function( vin ) {
+			$scope.data.vin = result.text;
+			$scope.VINLookup( result.text );
+		} );
+	};
+
 } )
 
 .controller( "helpCtrl", function( $scope ) {
 
+} )
+
+.controller( "menuCtrl", function( $scope, $ionicSideMenuDelegate ) {
+
+		// Function to close the menu which is fired after a side menu link is clicked.
+		// This is done instead of using the menu-close directive to preserve the root history stack
+	    $scope.closeMenu = function() {
+            $ionicSideMenuDelegate.toggleLeft( false );
+	    };
 } );

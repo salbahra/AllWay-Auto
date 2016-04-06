@@ -56,6 +56,7 @@
     .state( "app", {
       url: "/app",
       templateUrl: "templates/menu.html",
+      controller: "menuCtrl",
       abstract: true
     } );
 

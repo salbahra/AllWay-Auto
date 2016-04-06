@@ -1,0 +1,48 @@
+<ion-modal-view>
+	<div class="bar bar-header item-input-inset">
+		<h1 class="title white">Vehicle Details</h1>
+		<button class="button button-clear white" ng-click="carDetail.hide()">
+			Done
+		</button>
+	</div>
+	<ion-content class="has-header">
+		<div class="card">
+			<div class="item">
+				<span class="bold">Make:</span> {{currentCar.make}}
+			</div>
+			<div class="item">
+				<span class="bold">Model:</span> {{currentCar.model}}
+			</div>
+			<div class="item">
+				<span class="bold">Model:</span> {{currentCar.model}}
+			</div>
+			<div class="item">
+				<span class="bold">Color:</span> {{currentCar.color}}
+			</div>
+			<div class="item">
+				<span class="bold">VIN:</span> {{currentCar.vin}}
+			</div>
+			<div class="item">
+				<span class="bold">Purchaser:</span> {{currentCar.purchaserName}}
+			</div>
+			<div class="item">
+				<span class="bold">Odometer:</span> {{currentCar.odometer}}
+			</div>
+			<div class="item">
+				<span class="bold">Purchase Date:</span> {{currentCar.purchaseDate}}
+			</div>
+			<div class="item">
+				<span class="bold">Purchase Price:</span> {{currentCar.purchasePrice}}
+			</div>
+			<div class="item" ng-if="currentCar.sellDate">
+				<span class="bold">Sell Date:</span> {{currentCar.sellDate}}
+			</div>
+			<div class="item">
+				<span class="bold">Sell Price:</span> {{currentCar.sellPrice}}
+			</div>
+			<div class="item">
+				<span class="bold">Notes:</span> {{currentCar.notes}}
+			</div>
+		</div>
+	</ion-content>
+</ion-modal-view>
