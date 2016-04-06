@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module( "app", [ "ionic", "ion-autocomplete", "app.controllers", "app.routes", "app.services", "app.directives" ] )
 
-.run( function( $ionicPlatform, $ionicLoading, $document, $rootScope, $timeout ) {
+.run( function( $ionicPlatform, $ionicLoading, $document, $rootScope, $timeout, CarAPI ) {
   $ionicPlatform.ready( function() {
 
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -55,5 +55,10 @@ angular.module( "app", [ "ionic", "ion-autocomplete", "app.controllers", "app.ro
     if ( window.innerWidth > 768 ) {
       angular.element( "#mainContent" ).width( window.innerWidth - 275 );
     }
+  } );
+
+  // Get all company data as soon as app launches
+  CarAPI.getCompanies( function( data ) {
+    $rootScope.companies = data;
   } );
 } );

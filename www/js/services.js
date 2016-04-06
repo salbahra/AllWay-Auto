@@ -59,7 +59,7 @@ angular.module( "app.services", [] )
 
             $http( {
                 method: "GET",
-                url: "http://104.131.184.55:3000/companies"
+                url: apiBase + "/companies"
             } ).then(
                 function( result ) {
                     callback( result.data );

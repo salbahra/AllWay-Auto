@@ -5,12 +5,14 @@ angular.module( "app.controllers", [] )
 
 	$scope.cars = [];
 	$scope.data = {};
+	$scope.filters = [ "Inventory", "Sold" ];
+	$scope.currentFilter = "Inventory";
 
 	$scope.updateView = function() {
 		CarAPI.getCars( function( data ) {
 			if ( data ) {
 				$scope.cars = data;
-				$scope.applyFilters();
+				$scope.setFilter( $scope.currentFilter );
 			} else {
 				$scope.cars = [];
 			}
@@ -18,15 +20,31 @@ angular.module( "app.controllers", [] )
 		} );
 	};
 
+	$scope.setFilter = function( filter ) {
+		if ( $scope.currentFilter === filter ) {
+			filter = "Inventory";
+		}
+
+		$scope.currentFilter = filter;
+
+		if ( filter === "Inventory" ) {
+			$scope.filtered = $scope.cars;
+		} else if ( filter === "Sold" ) {
+			$scope.filtered = filterFilter( $scope.cars, { isSold: 1 } );
+		}
+
+		$scope.applyFilters();
+	};
+
 	$scope.applyFilters = function() {
-		$scope.filtered = filterFilter( $scope.cars, $scope.data.search );
+		$scope.filtered = filterFilter( $scope.filtered, $scope.data.search );
 	};
 
 	// If the user or organization changed, update data on next view
 	$scope.$on( "$ionicView.beforeEnter", $scope.updateView );
 } )
 
-.controller( "stockInVehicleCtrl", function( $scope, $window, $filter, $ionicHistory, $ionicPopup, CarAPI ) {
+.controller( "stockInVehicleCtrl", function( $scope, $rootScope, $interval, $window, $filter, $ionicHistory, $ionicPopup, CarAPI ) {
 	var filterFilter = $filter( "filter" );
 
 	$scope.hasCamera = $window.cordova ? true : false;
@@ -47,9 +65,17 @@ angular.module( "app.controllers", [] )
 		$scope.info.makes = data.makes;
 	} );
 
-	CarAPI.getCompanies( function( data ) {
-		$scope.info.companies = data;
-	} );
+	if ( $rootScope.companies ) {
+		$scope.info.companies = $rootScope.companies;
+	} else {
+		var cancel = $interval( function() {
+			if ( $rootScope.companies ) {
+				$scope.info.companies = $rootScope.companies;
+				$interval.cancel( cancel );
+				cancel = undefined;
+			}
+		}, 100 );
+	}
 
 	$scope.scanVIN = function() {
 		cordova.plugins.barcodeScanner.scan(
