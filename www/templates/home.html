@@ -16,11 +16,12 @@
             </label>
         </form>
         <ion-list ng-if="filtered.length">
-            <ion-item class="item-thumbnail-left" ng-repeat="car in filtered track by car.id">
+            <ion-item class="item-thumbnail-left item-icon-right" ng-repeat="car in filtered track by car.id" ng-click="showCar(car)">
                 <img src="img/placeholder.svg">
-                <h2>{{car.make}} - {{car.model}} - {{car.year}} - {{car.color}}</h2>
-                <p>VIN: {{car.vin}}</p>
-                <p>Miles: {{car.odometer}}</p>
+                <h2>{{car.make}}</h2>
+                <p>{{car.model}} ({{car.year}})</p>
+                <p>Color: {{car.color}}</p>
+                <i class="icon ion-android-more-vertical"></i>
             </ion-item>
         </ion-list>
         <div ng-if="filtered.length === 0" class="center empty-state">

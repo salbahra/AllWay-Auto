@@ -1,7 +1,8 @@
 angular.module( "app.controllers", [] )
 
 .controller( "homeCtrl", function( $scope, $filter, CarAPI ) {
-	var filterFilter = $filter( "filter" );
+	var filterFilter = $filter( "filter" ),
+		orderFilter = $filter( "orderBy" );
 
 	$scope.cars = [];
 	$scope.data = {};
