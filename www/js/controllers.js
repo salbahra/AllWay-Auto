@@ -43,14 +43,18 @@ angular.module( "app.controllers", [] )
 	$scope.scanVIN = function() {
 		cordova.plugins.barcodeScanner.scan(
 			function( result ) {
-				console.log( result );
-				if ( result.text && CarAPI.validateVIN( result.text ) ) {
-					$scope.data.vin = result.text;
-					$scope.VINLookup( result.text );
-				} else if ( !result.cancelled ) {
-					$ionicPopup.alert( {
-						template: "<p class='center'>Invalid VIN detected. Please try again.</p>"
-					} );
+				if ( result.text ) {
+					if ( result.text.charAt( 0 ).toLowerCase() === "i" ) {
+						result.text = result.text.splice( 1 );
+					}
+					if ( CarAPI.validateVIN( result.text ) ) {
+						$scope.data.vin = result.text;
+						$scope.VINLookup( result.text );
+					} else if ( !result.cancelled ) {
+						$ionicPopup.alert( {
+							template: "<p class='center'>Invalid VIN detected. Please try again.</p>"
+						} );
+					}
 				}
 			}
 		);
