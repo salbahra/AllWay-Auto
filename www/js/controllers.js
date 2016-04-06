@@ -10,6 +10,7 @@ angular.module( "app.controllers", [] )
 			} else {
 				$scope.cars = [];
 			}
+			$scope.$broadcast( "scroll.refreshComplete" );
 		} );
 	};
 
