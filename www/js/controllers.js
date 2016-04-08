@@ -75,7 +75,7 @@ angular.module( "app.controllers", [] )
 	} );
 } )
 
-.controller( "stockInVehicleCtrl", function( $scope, $rootScope, $interval, $window, $filter, $ionicHistory, $ionicPopup, CarAPI ) {
+.controller( "stockInVehicleCtrl", function( $scope, $stateParams, $rootScope, $window, $filter, $ionicHistory, $ionicPopup, CarAPI ) {
 	var filterFilter = $filter( "filter" );
 
 	$scope.hasCamera = $window.cordova ? true : false;
@@ -92,22 +92,6 @@ angular.module( "app.controllers", [] )
 		years: []
 	};
 
-	CarAPI.getAllModels( function( data ) {
-		$scope.info.makes = data.makes;
-	} );
-
-	if ( $rootScope.companies ) {
-		$scope.info.companies = $rootScope.companies;
-	} else {
-		var cancel = $interval( function() {
-			if ( $rootScope.companies ) {
-				$scope.info.companies = $rootScope.companies;
-				$interval.cancel( cancel );
-				cancel = undefined;
-			}
-		}, 100 );
-	}
-
 	$scope.scanVIN = function() {
 		CarAPI.scanVIN( function( vin ) {
 			$scope.data.vin = result.text;
@@ -123,11 +107,13 @@ angular.module( "app.controllers", [] )
 				return;
 			}
 
-            $scope.data.make = $scope.info.makes[ $scope.info.makes.indexOf( filterFilter( $scope.info.makes, { id: data.make } )[ 0 ] ) ];
-            $scope.data.model = $scope.data.make.models[ $scope.data.make.models.indexOf( filterFilter( $scope.data.make.models, { id: data.model } )[ 0 ] ) ];
-            $scope.info.years = data.years;
-            $scope.data.year = $scope.info.years[ $scope.info.years.indexOf( filterFilter( $scope.info.years, { id: data.years[ 0 ].id } )[ 0 ] ) ];
-            if ( !data.colors ) {
+            $scope.data.make = data.make;
+            $scope.data.model = data.model;
+            $scope.info.years = data.model.years;
+            $scope.data.year = data.year;
+            if ( data.color ) {
+				$scope.data.color = data.color;
+            } else {
                 $scope.getColors();
             }
 		} );
@@ -137,10 +123,13 @@ angular.module( "app.controllers", [] )
 		$scope.info.years = $scope.data.model.years;
 	};
 
-	$scope.getColors = function() {
+	$scope.getColors = function( callback ) {
+		callback = callback || function() {};
+
 		if ( $scope.data.make.name && $scope.data.model.name && $scope.data.year.year ) {
 			CarAPI.getColorForModel( $scope.data.make.name, $scope.data.model.name, $scope.data.year.year, function( data ) {
 				$scope.info.colors = data.styles[ 0 ].colors[ 1 ].options;
+				callback();
 			} );
 		}
 	};
@@ -149,11 +138,11 @@ angular.module( "app.controllers", [] )
 		if ( query.length < 3 ) {
 			return [];
 		}
-		return filterFilter( $scope.info.companies, { name: query } );
+		return filterFilter( $rootScope.companies, { name: query } );
 	};
 
 	$scope.saveCar = function() {
-		CarAPI.addCar( {
+		var current = {
 			vin: $scope.data.vin,
 			make: $scope.data.make.name,
 			model: $scope.data.model.name,
@@ -164,11 +153,15 @@ angular.module( "app.controllers", [] )
 			purchaseDate: $scope.data.purchaseDate,
 			purchasePrice: $scope.data.purchasePrice,
 			notes: $scope.data.notes
-		}, function( result ) {
-			var msg = "Car added succesfully!";
+		};
+
+		var send = $scope.isNew ? CarAPI.addCar : CarAPI.updateCar;
+		send( current, function( result ) {
+			var type = $scope.isNew ? "add" : "updat",
+				msg = "Car " + type + "ed succesfully!";
 
 			if ( !result ) {
-				msg = "Unable to add vehicle. Make sure the VIN is unique and try again.";
+				msg = "Unable to " + type + " vehicle. Please try again.";
 			}
 
 			$ionicPopup.alert( {
@@ -177,16 +170,60 @@ angular.module( "app.controllers", [] )
 			$ionicHistory.goBack();
 		} );
 	};
+
+	// If the user or organization changed, update data on next view
+	$scope.$on( "$ionicView.beforeEnter", function() {
+		var car = $stateParams.car;
+
+		if ( car ) {
+			$scope.data.vin = car.vin,
+			$scope.data.make = filterFilter( $rootScope.makes, { name: car.make } )[ 0 ];
+			$scope.data.model = $scope.data.make.models[ $scope.data.make.models.indexOf( filterFilter( $scope.data.make.models, { name: car.model } )[ 0 ] ) ];
+			$scope.info.years = $scope.data.model.years;
+			$scope.data.year = $scope.info.years[ $scope.info.years.indexOf( filterFilter( $scope.info.years, { year: car.year } )[ 0 ] ) ];
+			if ( car.color ) {
+				$scope.getColors( function() {
+					$scope.data.color = $scope.info.colors[ $scope.info.colors.indexOf( filterFilter( $scope.info.colors, { name: car.color } )[ 0 ] ) ];
+				} );
+			}
+			$scope.data.purchaser = filterFilter( $rootScope.companies, { gdn: car.purchaser } );
+			$scope.data.odometer = car.odometer;
+			$scope.data.purchaseDate = new Date( car.purchaseDate.substring( 0, 10 ) );
+			$scope.data.purchasePrice = car.purchasePrice;
+			$scope.data.notes = car.notes;
+			$scope.isNew = false;
+		} else {
+			$scope.data = {};
+			$scope.isNew = true;
+		}
+	} );
 } )
 
-.controller( "vinCtrl", function( $scope ) {
+.controller( "vinCtrl", function( $scope, $window, CarAPI ) {
 
 	$scope.data = {};
+	$scope.hasCamera = $window.cordova ? true : false;
 
 	$scope.scanVIN = function() {
 		CarAPI.scanVIN( function( vin ) {
-			$scope.data.vin = result.text;
+			$scope.data.VIN = result.text;
 			$scope.VINLookup( result.text );
+		} );
+	};
+
+	$scope.VINLookup = function( vin ) {
+		vin = vin || $scope.data.VIN;
+
+		CarAPI.getVINInfo( vin, function( data ) {
+			if ( !data ) {
+				return;
+			}
+			$scope.data.make = data.make;
+			$scope.data.model = data.model;
+			$scope.data.year = data.year;
+			if ( data.color ) {
+				$scope.data.color = data.color;
+			}
 		} );
 	};
 

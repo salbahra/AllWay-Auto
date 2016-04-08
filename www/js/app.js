@@ -7,58 +7,73 @@
 // 'starter.controllers' is found in controllers.js
 angular.module( "app", [ "ionic", "ion-autocomplete", "app.controllers", "app.routes", "app.services", "app.directives" ] )
 
-.run( function( $ionicPlatform, $ionicLoading, $document, $rootScope, $timeout, CarAPI ) {
-  $ionicPlatform.ready( function() {
+.run( function( $ionicPlatform, $ionicLoading, $document, $rootScope, $state, $timeout, CarAPI ) {
+    $ionicPlatform.ready( function() {
 
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
 
-    if ( window.cordova && window.cordova.plugins.Keyboard ) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar( true );
-    }
-    if ( window.StatusBar ) {
+        if ( window.cordova && window.cordova.plugins.Keyboard ) {
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar( true );
+        }
+        if ( window.StatusBar ) {
 
-      // For org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
+            // For org.apache.cordova.statusbar required
+            StatusBar.styleDefault();
+        }
 
-    // Hide the splash screen after 500ms of the app being ready
-    $timeout( function() {
-      try {
-        navigator.splashscreen.hide();
-      } catch ( err ) {}
-    }, 500 );
-  } );
-
-  // Automatically show a loading message on any AJAX request
-  $rootScope.$on( "loading:show", function( e, data ) {
-
-    // TODO: Handle more than one simultaneous AJAX
-    $rootScope.canceller = data.canceller.resolve;
-    $ionicLoading.show( {
-      template: "<ion-spinner></ion-spinner><br>One moment please<br><button class='button icon-left ion-ios-close-outline button-clear' ng-click='$root.canceller()'>Cancel</button>"
+        // Hide the splash screen after 500ms of the app being ready
+        $timeout( function() {
+            try {
+                navigator.splashscreen.hide();
+            } catch ( err ) {}
+        }, 500 );
     } );
+
+    // Automatically show a loading message on any AJAX request
+    $rootScope.$on( "loading:show", function( e, data ) {
+
+        // TODO: Handle more than one simultaneous AJAX
+        $rootScope.canceller = data.canceller.resolve;
+        $ionicLoading.show( {
+            template: "<ion-spinner></ion-spinner><br>One moment please<br><button class='button icon-left ion-ios-close-outline button-clear' ng-click='$root.canceller()'>Cancel</button>"
+        } );
+    } );
+
+    // Automatically hide the loading message after an AJAX request
+    $rootScope.$on( "loading:hide", function() {
+        $ionicLoading.hide();
+    } );
+
+    // Keep the page title locked as the app name
+    $rootScope.$on( "$ionicView.afterEnter", function() {
+        $document[ 0 ].title = "AllWay Auto";
+    } );
+
+    // Resize the main content view to fit when the window changes size
+    angular.element( window ).on( "resize", function() {
+        if ( window.innerWidth > 768 ) {
+            angular.element( "#mainContent" ).width( window.innerWidth - 275 );
+        }
+    } );
+
+    // Handle loading of the first page
+    var firstLoadHandler = $rootScope.$on( "$stateChangeStart", function( event ) {
+
+        // Unbind event handler so this check is only performed on the first app load
+        firstLoadHandler();
+
+        // Prevent any page change from occurring
+        event.preventDefault();
+
+        // Get all company data as soon as app launches
+        CarAPI.getCompanies( function( data ) {
+            $rootScope.companies = data;
+            CarAPI.getAllModels( function( data ) {
+                $rootScope.makes = data.makes;
+                $state.go( "app.home" );
+            } );
+        } );
   } );
 
-  // Automatically hide the loading message after an AJAX request
-  $rootScope.$on( "loading:hide", function() {
-    $ionicLoading.hide();
-  } );
-
-  // Keep the page title locked as the app name
-  $rootScope.$on( "$ionicView.afterEnter", function() {
-    $document[ 0 ].title = "AllWay Auto";
-  } );
-
-  // Resize the main content view to fit when the window changes size
-  angular.element( window ).on( "resize", function() {
-    if ( window.innerWidth > 768 ) {
-      angular.element( "#mainContent" ).width( window.innerWidth - 275 );
-    }
-  } );
-
-  // Get all company data as soon as app launches
-  CarAPI.getCompanies( function( data ) {
-    $rootScope.companies = data;
-  } );
 } );

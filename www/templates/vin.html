@@ -7,7 +7,7 @@
 		        </div>
 		        <div class="item item-input-inset">
 		            <label class="item-input-wrapper">
-		                <input type="text" ng-model="data.vin" placeholder="VIN" ng-change="VINLookup()" required="required" ng-pattern="/[A-HJ-NPR-Z0-9]{17}/">
+		                <input type="text" ng-model="data.VIN" placeholder="VIN" ng-change="VINLookup()" required="required">
 		            </label>
 		            <button class="button button-small" ng-click="scanVIN()" ng-show="hasCamera">
 		                <i class="icon ion-camera"></i> Scan
@@ -15,9 +15,18 @@
 		        </div>
 		    </div>
 		</form>
-		<div ng-show="data.length">
-			<div class="list">
-			<div class="item" ng-repeat="(key, value) in data"></div>
+		<div class="card" ng-show="data.make">
+			<div class="item">
+				<span class="bold">Make:</span> {{data.make.name}}
+			</div>
+			<div class="item">
+				<span class="bold">Model:</span> {{data.model.name}}
+			</div>
+			<div class="item">
+				<span class="bold">Year:</span> {{data.year.year}}
+			</div>
+			<div class="item" ng-if="data.color">
+				<span class="bold">Color:</span> {{data.color}}
 			</div>
 		</div>
     </ion-content>

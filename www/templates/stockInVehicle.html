@@ -22,7 +22,7 @@
 		            <div class="input-label">
 		                Make
 		            </div>
-		            <select ng-model="data.make" ng-disabled="!info.makes || !info.makes.length" ng-options="make.name for make in info.makes track by make.id"  required="required">
+		            <select ng-model="data.make" ng-disabled="!$root.makes || !$root.makes.length" ng-options="make.name for make in $root.makes track by make.id"  required="required">
 		            </select>
 		        </label>
 		        <label class="item item-input item-select">
@@ -74,7 +74,7 @@
 				</label>
 				<label class="item item-input">
 					<span class="input-label">Purchase Date</span>
-					<input type="date" placeholder="yyyy-MM-dd" ng-model="data.purchaseDate" required="required">
+					<input type="date" placeholder="yyyy-MM-dd" ng-model="data.purchaseDate" required="required" id="test">
 				</label>
 				<label class="item item-input">
 					<span class="input-label">Purchase Price</span>

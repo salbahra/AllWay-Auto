@@ -4,9 +4,12 @@ angular.module( "app.services", [] )
 	var apiBase = "http://104.131.184.55:3000",
         token = "63db4mypzb27b768uj4xp5qt",
 		validateVIN = function( vin ) {
+            if ( !vin ) {
+                return false;
+            }
             return vin.toUpperCase().match( /[A-HJ-NPR-Z0-9]{17}/ ) ? true : false;
         },
-        $http, $ionicPopup;
+        $http, $filter, $ionicPopup;
 
 	return {
         validateVIN: validateVIN,
@@ -71,6 +74,22 @@ angular.module( "app.services", [] )
                 }
             );
         },
+        updateCar: function( car, callback ) {
+            $http = $http || $injector.get( "$http" );
+
+            $http( {
+                method: "POST",
+                url: apiBase + "/update/car",
+                data: car
+            } ).then(
+                function( result ) {
+                    callback( result.data );
+                },
+                function() {
+                    callback( false );
+                }
+            );
+        },
         getCars: function( callback ) {
             $http = $http || $injector.get( "$http" );
 
@@ -88,6 +107,10 @@ angular.module( "app.services", [] )
         },
         scanVIN: function( callback ) {
             $ionicPopup = $ionicPopup || $injector.get( "$ionicPopup" );
+
+            if ( typeof cordova === "undefined" ) {
+                return;
+            }
 
             cordova.plugins.barcodeScanner.scan(
                 function( result ) {
@@ -110,21 +133,23 @@ angular.module( "app.services", [] )
             if ( validateVIN( vin ) ) {
 
                 $http = $http || $injector.get( "$http" );
+                $filter = $filter || $injector.get( "$filter" );
 
                 $http( {
                     method: "GET",
                     url: "https://api.edmunds.com/api/vehicle/v2/vins/" + vin + "?fmt=json&api_key=" + token
                 } ).then(
                     function( result ) {
-
-                        var data = {
-                            make: result.data.make.id,
-                            model: result.data.model.id,
-                            years: result.data.years
+						var filterFilter = $filter( "filter" ),
+							make = filterFilter( $rootScope.makes, { id: result.data.make.id } )[ 0 ],
+							data = {
+								make: make,
+								model: make.models[ make.models.indexOf( filterFilter( make.models, { id: result.data.model.id } )[ 0 ] ) ],
+								year: result.data.years[ 0 ]
                         };
 
                         if ( data.colors && data.colors.length ) {
-                            data.colors = result.data.colors[ 0 ].options;
+                            data.color = result.data.colors[ 0 ].options;
                         }
 
                         callback( data );
