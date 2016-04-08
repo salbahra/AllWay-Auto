@@ -1,6 +1,6 @@
 angular.module( "app.controllers", [] )
 
-.controller( "homeCtrl", function( $scope, $rootScope, $ionicPopover, $ionicModal, $filter, CarAPI ) {
+.controller( "homeCtrl", function( $scope, $rootScope, $ionicPopover, $ionicPopup, $ionicModal, $filter, CarAPI ) {
 	var filterFilter = $filter( "filter" ),
 		orderFilter = $filter( "orderBy" );
 
@@ -71,7 +71,7 @@ angular.module( "app.controllers", [] )
 		$scope.currentFilter = filter;
 
 		if ( filter === "Inventory" ) {
-			$scope.filtered = $scope.cars;
+			$scope.filtered = filterFilter( $scope.cars, { isSold: 0 } );
 		} else if ( filter === "Sold" ) {
 			$scope.filtered = filterFilter( $scope.cars, { isSold: 1 } );
 		}
@@ -87,14 +87,36 @@ angular.module( "app.controllers", [] )
 		$scope.sellCar.hide();
 		CarAPI.markAsSold( {
 			vin: $scope.currentCar.vin,
-			isSold: true,
+			isSold: 1,
 			sellOdometer: $scope.data.sellOdometer,
 			sellDate: $scope.data.sellDate,
 			sellPrice: $scope.data.sellPrice,
 			seller: $scope.data.seller,
 			sellNotes: $scope.data.sellNotes
 		}, function( result ) {
+			if ( result ) {
+				$ionicPopup.alert( {
+					template: "<p class='center'>Car has succesfully been marked as sold.</p>"
+				} ).then( $scope.updateView );
+			}
+		} );
+	};
 
+	$scope.removeSaleStatus = function() {
+		CarAPI.updateCar( {
+			vin: $scope.currentCar.vin,
+			isSold: 0,
+			sellOdometer: null,
+			sellDate: null,
+			sellPrice: null,
+			seller: null,
+			sellNotes: null
+		}, function( result ) {
+			if ( result ) {
+				$ionicPopup.alert( {
+					template: "<p class='center'>Car has succesfully been moved back to inventory.</p>"
+				} ).then( $scope.updateView );
+			}
 		} );
 	};
 
