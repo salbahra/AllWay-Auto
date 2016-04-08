@@ -10,6 +10,12 @@ angular.module( "app.controllers", [] )
 		$scope.carDetail = modal;
 	} );
 
+	$ionicModal.fromTemplateUrl( "templates/sellCar.html", {
+		scope: $scope
+	} ).then( function( modal ) {
+		$scope.sellCar = modal;
+	} );
+
 	$ionicPopover.fromTemplateUrl( "templates/showOptions.html", {
 		scope: $scope
 	} ).then( function( popover ) {
@@ -45,6 +51,18 @@ angular.module( "app.controllers", [] )
 		$scope.carDetail.show();
 	};
 
+	$scope.showCarModal = function( car ) {
+		$scope.currentCar = car;
+		$scope.sellCar.show();
+	};
+
+	$scope.callbackMethod = function( query, isInitializing ) {
+		if ( query.length < 3 ) {
+			return [];
+		}
+		return filterFilter( $rootScope.companies, { name: query } );
+	};
+
 	$scope.setFilter = function( filter ) {
 		if ( $scope.currentFilter === filter ) {
 			filter = "Inventory";
@@ -65,6 +83,21 @@ angular.module( "app.controllers", [] )
 		$scope.filtered = filterFilter( $scope.filtered, $scope.data.search );
 	};
 
+	$scope.markAsSold = function() {
+		$scope.sellCar.hide();
+		CarAPI.markAsSold( {
+			vin: $scope.currentCar.vin,
+			isSold: true,
+			sellOdometer: $scope.data.sellOdometer,
+			sellDate: $scope.data.sellDate,
+			sellPrice: $scope.data.sellPrice,
+			seller: $scope.data.seller,
+			sellNotes: $scope.data.sellNotes
+		}, function( result ) {
+
+		} );
+	};
+
 	// If the user or organization changed, update data on next view
 	$scope.$on( "$ionicView.beforeEnter", $scope.updateView );
 
@@ -72,6 +105,7 @@ angular.module( "app.controllers", [] )
 	$scope.$on( "$destroy", function() {
 		$scope.carDetail.remove();
 		$scope.showOptions.remove();
+		$scope.sellCar.remove();
 	} );
 } )
 
@@ -80,16 +114,18 @@ angular.module( "app.controllers", [] )
 
 	$scope.hasCamera = $window.cordova ? true : false;
 
-	$scope.data = {
-		make: [],
-		model: [],
-		year: [],
-		color: []
-	};
-	$scope.info = {
-		makes: [],
-		colors: [],
-		years: []
+	$scope.reset = function() {
+		$scope.data = {
+			make: [],
+			model: [],
+			year: [],
+			color: []
+		};
+		$scope.info = {
+			makes: [],
+			colors: [],
+			years: []
+		};
 	};
 
 	$scope.scanVIN = function() {
@@ -176,6 +212,7 @@ angular.module( "app.controllers", [] )
 		var car = $stateParams.car;
 
 		if ( car ) {
+			$scope.reset();
 			$scope.data.vin = car.vin,
 			$scope.data.make = filterFilter( $rootScope.makes, { name: car.make } )[ 0 ];
 			$scope.data.model = $scope.data.make.models[ $scope.data.make.models.indexOf( filterFilter( $scope.data.make.models, { name: car.model } )[ 0 ] ) ];
@@ -186,14 +223,14 @@ angular.module( "app.controllers", [] )
 					$scope.data.color = $scope.info.colors[ $scope.info.colors.indexOf( filterFilter( $scope.info.colors, { name: car.color } )[ 0 ] ) ];
 				} );
 			}
-			$scope.data.purchaser = filterFilter( $rootScope.companies, { gdn: car.purchaser } );
+			$scope.data.purchaser = filterFilter( $rootScope.companies, { gdn: car.purchaser } )[ 0 ].name;
 			$scope.data.odometer = car.odometer;
 			$scope.data.purchaseDate = new Date( car.purchaseDate.substring( 0, 10 ) );
 			$scope.data.purchasePrice = car.purchasePrice;
 			$scope.data.notes = car.notes;
 			$scope.isNew = false;
 		} else {
-			$scope.data = {};
+			$scope.reset();
 			$scope.isNew = true;
 		}
 	} );

@@ -69,7 +69,7 @@
 						required="required">
 		        </label>
 				<label class="item item-input">
-					<span class="input-label">Odometer</span>
+					<span class="input-label">Purchase Miles</span>
 					<input type="number" ng-min="0" ng-max="999999" ng-model="data.odometer" pattern="\d*" required="required">
 				</label>
 				<label class="item item-input">
@@ -79,6 +79,18 @@
 				<label class="item item-input">
 					<span class="input-label">Purchase Price</span>
 					<input type="number" ng-model="data.purchasePrice" required="required">
+				</label>
+				<label class="item item-input" ng-if="data.sellOdometer">
+					<span class="input-label">Sold Miles</span>
+					<input type="number" ng-min="0" ng-max="999999" ng-model="data.sellOdometer" pattern="\d*" required="required">
+				</label>
+				<label class="item item-input" ng-if="data.sellDate">
+					<span class="input-label">Sell Date</span>
+					<input type="date" placeholder="yyyy-MM-dd" ng-model="data.sellDate" required="required" id="test">
+				</label>
+				<label class="item item-input" ng-if="data.sellPrice">
+					<span class="input-label">Sell Price</span>
+					<input type="number" ng-model="data.sellPrice" required="required">
 				</label>
 				<!-- TODO: Add picture upload
 		        <div class="item item-button-right">

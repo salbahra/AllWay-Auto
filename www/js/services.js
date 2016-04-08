@@ -90,6 +90,22 @@ angular.module( "app.services", [] )
                 }
             );
         },
+        markAsSold: function( car, callback ) {
+            $http = $http || $injector.get( "$http" );
+
+            $http( {
+                method: "POST",
+                url: apiBase + "/update/car",
+                data: car
+            } ).then(
+                function( result ) {
+                    callback( result.data );
+                },
+                function() {
+                    callback( false );
+                }
+            );
+        },
         getCars: function( callback ) {
             $http = $http || $injector.get( "$http" );
 

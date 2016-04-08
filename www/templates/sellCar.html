@@ -1,0 +1,51 @@
+<ion-modal-view>
+	<div class="bar bar-header item-input-inset">
+		<button class="button button-clear white" ng-click="sellCar.hide()">
+			Cancel
+		</button>
+		<h1 class="title white">Mark as Sold</h1>
+		<button class="button button-clear white" ng-click="markAsSold()">
+			Done
+		</button>
+	</div>
+	<ion-content class="has-header">
+		<div class="list">
+			<label class="item item-input">
+				<span class="input-label">Odometer</span>
+				<input type="number" ng-min="0" ng-max="999999" ng-model="data.sellOdometer" pattern="\d*" required="required">
+			</label>
+			<label class="item item-input">
+				<span class="input-label">Sell Date</span>
+				<input type="date" placeholder="yyyy-MM-dd" ng-model="data.sellDate" required="required">
+			</label>
+			<label class="item item-input">
+				<span class="input-label">Sell Price</span>
+				<input type="number" ng-model="data.sellPrice" required="required">
+			</label>
+	        <label class="item item-input item-select">
+	            <div class="input-label">
+	                Sold To
+	            </div>
+				<input
+					ion-autocomplete
+					type="text"
+					readonly="readonly"
+					class="ion-autocomplete"
+					ng-model="data.seller"
+					autocomplete="off"
+					max-selected-items="1"
+					items-method="callbackMethod(query)"
+					item-value-key="gdn"
+					item-view-value-key="name"
+					placeholder="Enter purchaser name..."
+					select-items-label="Select the purchaser..."
+					selected-items-label="Currently selected purchaser:"
+					required="required">
+	        </label>
+			<label class="item item-input">
+				<span class="input-label">Notes</span>
+				<textarea rows="5" placeholder="Optional..." ng-model="data.sellNotes"></textarea>
+			</label>
+		</div>
+	</ion-content>
+</ion-modal-view>

@@ -1,10 +1,10 @@
 <ion-popover-view class="fit fix-position">
 	<ion-content scroll="false" ng-click="showOptions.hide()">
-		<div class="list" ui-sref="app.stockInVehicle({car: currentCar})">
-			<div class="item item-icon-left">
+		<div class="list">
+			<div class="item item-icon-left" ui-sref="app.stockInVehicle({car: currentCar})">
 				<i class="icon ion-edit"></i> Edit
 			</div>
-			<div class="item item-icon-left" ng-if="currentCar.isSold === 0">
+			<div class="item item-icon-left" ng-if="currentCar.isSold === 0" ng-click="showCarModal(currentCar)">
 				<i class="icon ion-card"></i> Mark Car as Sold
 			</div>
 		</div>

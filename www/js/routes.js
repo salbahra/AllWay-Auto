@@ -32,7 +32,7 @@ angular.module( "app.routes", [] )
             }
         },
         params: {
-            car: {}
+            car: null
         }
     } )
 
