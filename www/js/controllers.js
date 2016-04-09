@@ -53,7 +53,10 @@ angular.module( "app.controllers", [] )
 			formData.append( "carImage", file );
 			formData.append( "vin", vin );
 
-			CarAPI.uploadCarImage( formData );
+			CarAPI.uploadCarImage( formData, function( result ) {
+				var image = angular.element( event.target ).parent().siblings( "img" )[ 0 ];
+				image.src = "http://104.131.184.55:3000/getCarImage/" + vin + "?date=" + new Date().getTime();
+			} );
 		} );
 
 		fileInput.click();
