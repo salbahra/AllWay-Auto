@@ -17,7 +17,12 @@
         </form>
         <ion-list ng-if="filtered.length">
             <ion-item class="item-thumbnail-left item-icon-right" ng-repeat="car in filtered track by car.id" ng-click="showCar(car)">
-                <img src="img/placeholder.svg">
+                <div class="thumb-container">
+                    <img class="fit-object" src="img/placeholder.svg" hires="http://104.131.184.55:3000/getCarImage/{{car.vin}}">
+                    <div class="corner-ribbon" ng-click="uploadPhoto($event, car.vin)">
+                        <i class="icon ion-ios-cloud-upload-outline"></i>
+                    </div>
+                </div>
                 <h2>{{car.make}}</h2>
                 <p>{{car.model}} ({{car.year}})</p>
                 <p>Color: {{car.color}}</p>
@@ -29,4 +34,7 @@
             <p>Add some cars by hitting the plus sign on the top right corner.</p>
         </div>
     </ion-content>
+    <form>
+        <input type="file" class="hide" id="carImage" />
+    </form>
 </ion-view>

@@ -90,22 +90,6 @@ angular.module( "app.services", [] )
                 }
             );
         },
-        markAsSold: function( car, callback ) {
-            $http = $http || $injector.get( "$http" );
-
-            $http( {
-                method: "POST",
-                url: apiBase + "/update/car",
-                data: car
-            } ).then(
-                function( result ) {
-                    callback( result.data );
-                },
-                function() {
-                    callback( false );
-                }
-            );
-        },
         getCars: function( callback ) {
             $http = $http || $injector.get( "$http" );
 
@@ -180,6 +164,27 @@ angular.module( "app.services", [] )
             } else {
                 callback( false );
             }
+        },
+        uploadCarImage: function( data, callback ) {
+            callback = callback || function() {};
+            $http = $http || $injector.get( "$http" );
+
+            $http( {
+                method: "POST",
+                url: apiBase + "/uploadCarImage",
+                transformRequest: angular.identity,
+                headers: {
+                    "Content-Type": undefined
+                },
+                data: data
+            } ).then(
+                function() {
+                    callback( true );
+                },
+                function() {
+                    callback( false );
+                }
+            );
         }
 	};
 } ] )

@@ -22,6 +22,11 @@ angular.module( "app.controllers", [] )
 		$scope.showOptions = popover;
 	} );
 
+	$scope.avatar = {
+		image: false,
+		cropped: false
+	};
+
 	$scope.cars = [];
 	$scope.data = {};
 	$scope.filters = [ "Inventory", "Sold" ];
@@ -31,6 +36,27 @@ angular.module( "app.controllers", [] )
 		event.stopPropagation();
 		$scope.currentCar = car;
 		$scope.showOptions.show( event );
+	};
+
+	$scope.uploadPhoto = function( event, vin ) {
+		event.stopPropagation();
+		var fileInput = angular.element( "#carImage" );
+		fileInput.one( "change", function() {
+
+			var file = fileInput[ 0 ].files[ 0 ];
+
+			if ( !file.type || !file.type.match( "image.*" ) ) {
+				return;
+			}
+
+			var formData = new FormData();
+			formData.append( "carImage", file );
+			formData.append( "vin", vin );
+
+			CarAPI.uploadCarImage( formData );
+		} );
+
+		fileInput.click();
 	};
 
 	$scope.updateView = function() {

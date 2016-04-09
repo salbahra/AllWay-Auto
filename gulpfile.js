@@ -62,5 +62,5 @@ gulp.task( "sass", function() {
 
 // SASS Listener
 gulp.task( "watch", function() {
-	gulp.watch( [ "/scss/ionic.app.scss" ], [ "sass" ] );
+	gulp.watch( [ "scss/ionic.app.scss" ], [ "sass" ] );
 } );
