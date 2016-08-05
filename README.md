@@ -1,15 +1,13 @@
 <h3>AllWay Auto</h3>
 [Official Site][official] | [Support][help] | [Changelog][changelog]
-&copy; 2016 [Nora Taiym][norataiym] ([@norataiymUTSA](https://twitter.com/ntaiymutsa))
 <br>
 Quickly find and manage your vehicle inventory from anywhere.
 
 ---
 
 [official]: https://allwayauto.com
-[help]: https://github.com/norataiym/AutoWholesale/issues
-[changelog]: https://github.com/norataiym/AutoWholesale/releases
-[norataiym]: https://twitter.com/ntaiymutsa
+[help]: https://github.com/salbahra/AutoWholesale/issues
+[changelog]: https://github.com/salbahra/AutoWholesale/releases
 
 
 ===================================
@@ -35,7 +33,7 @@ Several methods exist to live view the application for development as well as bu
 
 ```
 # Clone the repository
-git clone https://github.com/norataiym/AutoWholesale
+git clone https://github.com/salbahra/AutoWholesale
 
 # Change into project directory
 cd AutoWholesale
